@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>V3.0 Ellie's Kansai Trip - Washi Style</title>
+    <title>2026京阪奈 - 數位導遊</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
     
@@ -15,72 +15,133 @@
     
     <style>
         :root {
-            --washi-bg: #FDFCF5; /* 和紙米色底 */
-            --card-bg: #FFFFFF;    /* 純白字卡 */
-            --text-main: #2D3436;  /* 深灰文字 */
-            --trip-blue: #1B4F72;  /* 復古深藍 (交通用) */
-            --trip-green: #196F3D; /* 復古深綠 (景點用) */
-            --trip-red: #A93226;   /* 復古深紅 (美食用) */
-            --nav-border: #E5E0D3; /* 導航列邊框 */
+            /* 全面轉換為莫蘭迪色系 (Morandi Palette) */
+            --mo-bg: #E0DDCF;          /* 底色: 灰調霧米 */
+            --card-bg: #FFFFFF;        /* 純白字卡 */
+            --text-main: #53565A;      /* 深灰文字 */
+            --mo-blue: #77909F;        /* 交通: 霧霾藍 */
+            --mo-green: #9CAF9C;       /* 景點: 鼠尾草綠 */
+            --mo-red: #A98B84;         /* 美食: 乾燥玫瑰粉 */
+            --mo-yellow: #BDB76B;      /* 攻略: 暗金色 */
+            --border-light: #C4C1B1;
         }
 
-        /* 應用新字體 */
         body { 
-            font-family: 'Noto Serif TC', serif; /* 預設中文宋體 */
-            background-color: var(--washi-bg); 
+            font-family: 'Noto Serif TC', serif; 
+            background-color: var(--mo-bg); 
             color: var(--text-main); 
             -webkit-tap-highlight-color: transparent;
             padding-top: env(safe-area-inset-top);
+            overflow-x: hidden;
         }
         
-        /* 英文與數字使用 Courier Prime */
         .font-eng { font-family: 'Courier Prime', monospace; font-weight: 700; }
         .font-mono-eng { font-family: 'Courier Prime', monospace; }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Washi Style Card (純白卡片在米色底上) */
+        /* Washi Style Card */
         .n-card { 
             background: var(--card-bg); 
-            border-radius: 12px; 
-            border: 1px solid #EAE5D8; /* 微微的邊框 */
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04); /* 柔和陰影 */
-            transition: transform 0.2s;
+            border-radius: 16px; 
+            border: 1px solid rgba(196, 193, 177, 0.5);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.03);
             overflow: hidden;
+            transition: all 0.2s ease;
         }
-        .n-card:active { transform: scale(0.98); }
+        .n-card:active { transform: scale(0.98); background-color: #F8F7F2; }
 
         /* Segmented Control (Day Selector) */
         .segmented-control {
-            background-color: #EAE5D8;
-            border-radius: 10px;
-            padding: 3px;
+            background-color: rgba(196, 193, 177, 0.5);
+            border-radius: 12px;
+            padding: 4px;
             display: flex;
         }
         .segmented-control button {
             flex: 1;
-            padding: 8px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 9px;
             font-size: 0.8rem;
             font-weight: 700;
-            font-family: 'Courier Prime', monospace; /* Day 數字用英文 */
+            font-family: 'Courier Prime', monospace;
+            color: #7D7966;
         }
         .segmented-control button.active {
             background-color: white;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-            color: var(--trip-blue);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            color: var(--mo-blue);
         }
 
-        /* Nav Tags */
-        .btn-transit { background: #34495E; color: white; border-radius: 6px; font-size: 0.75rem; padding: 6px 14px; font-weight: 700; }
+        /* 空心圓按鈕 (Hollow Circle Buttons) */
+        .btn-transit { 
+            border: 1.5px solid var(--mo-blue); 
+            color: var(--mo-blue); 
+            background: transparent;
+            border-radius: 20px; 
+            font-size: 0.7rem; 
+            padding: 6px 16px; 
+            font-weight: 700; 
+            transition: all 0.2s;
+        }
+        .btn-transit:active { background-color: var(--mo-blue); color: white; }
 
-        /* Guide Tags (復古色調) */
+        .btn-info-circle {
+            border: 1.5px solid #A0A0A0;
+            color: #A0A0A0;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Guide Tags (莫蘭迪霧色) */
         .guide-tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: 700; margin-right: 5px; margin-bottom: 5px; display: inline-block;}
-        .tag-eat { background: #FADBD8; color: #78281F; border: 1px solid #F5B7B1; }
-        .tag-buy { background: #D4EFDF; color: #145A32; border: 1px solid #A9DFBF; }
-        .tag-tips { background: #FCF3CF; color: #7E5109; border: 1px solid #F9E79F; }
-        .tag-code { background: #D6EAF8; color: #1B4F72; border: 1px solid #AED6F1; font-family: 'Courier Prime', monospace; }
+        .tag-eat { background: rgba(169, 139, 132, 0.15); color: var(--mo-red); border: 1px solid rgba(169, 139, 132, 0.3); }
+        .tag-buy { background: rgba(156, 175, 156, 0.15); color: var(--mo-green); border: 1px solid rgba(156, 175, 156, 0.3); }
+        .tag-tips { background: rgba(189, 183, 107, 0.15); color: #8A8442; border: 1px solid rgba(189, 183, 107, 0.3); }
+        .tag-code { background: rgba(119, 144, 159, 0.1); color: var(--mo-blue); border: 1px solid rgba(119, 144, 159, 0.2); font-family: 'Courier Prime', monospace; }
+
+        /* Floating Modal (莫蘭迪全螢幕) */
+        .modal-mask {
+            position: fixed; z-index: 100; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(83, 86, 90, 0.6); backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: flex-end;
+            transition: opacity 0.3s ease;
+        }
+        .modal-wrapper {
+            width: 100%; max-width: 500px;
+            height: 85vh;
+            background-color: #F8F7F2;
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+        }
+        .modal-mask.show { opacity: 1; }
+        .modal-mask.show .modal-wrapper { transform: translateY(0); }
+
+        .modal-header { padding: 20px 24px; border-b: 1px solid #E5E2D5; display: flex; justify-content: space-between; align-items: start; }
+        .modal-body { padding: 24px; overflow-y: auto; flex-grow: 1; }
+        
+        /* 漂浮頁面內的空心圓連結按鈕 */
+        .link-btn-hollow {
+            display: flex; align-items: center; gap: 10px;
+            border: 1.5px solid #C4C1B1; color: var(--text-main);
+            padding: 14px 18px; border-radius: 12px;
+            font-size: 0.85rem; font-weight: 500;
+            transition: all 0.2s; margin-bottom: 12px;
+        }
+        .link-btn-hollow:active { border-color: var(--mo-blue); color: var(--mo-blue); background-color: rgba(119, 144, 159, 0.05); }
+
+        /* 攻略文字粗體亮顯 */
+        .guide-highlight { font-weight: 700; color: #4A4A4A; background-color: rgba(189, 183, 107, 0.1); padding: 0 2px; }
 
         /* Animation */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -89,14 +150,14 @@
 </head>
 <body class="pb-32">
 <div id="app">
-    <header class="sticky top-0 z-40 bg-[#FDFCF5]/95 backdrop-blur-sm border-b border-[#EAE5D8] pt-[env(safe-area-inset-top)]">
+    <header class="sticky top-0 z-40 bg-[#E0DDCF]/95 backdrop-blur-sm border-b border-[#C4C1B1]/50 pt-[env(safe-area-inset-top)]">
         <div class="px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span class="text-2xl">🇯🇵</span>
-                <h1 class="text-xl font-bold tracking-tight text-gray-900">京阪奈．秋之旅</h1>
+            <div class="flex items-center gap-2.5">
+                <span class="text-2xl mt-[-4px]">🇯🇵</span>
+                <h1 class="text-xl font-bold tracking-tight text-gray-950 serif">2026京阪奈</h1>
             </div>
             <div class="text-right">
-                <p class="text-[10px] font-mono-eng text-gray-500 uppercase tracking-widest">2026.09.03-08</p>
+                <p class="text-[10px] font-mono-eng text-gray-500 uppercase tracking-widest">Guide & Handwrtien</p>
             </div>
         </div>
         <div v-if="currentTab === 'itinerary'" class="px-6 pb-4">
@@ -114,131 +175,145 @@
             <div class="n-card p-5 flex items-center justify-between">
                 <div>
                     <p class="text-xs font-mono-eng text-gray-500">{{ itineraryData[activeDay-1].date_eng }}</p>
-                    <p class="text-sm text-gray-600">{{ itineraryData[activeDay-1].date_chi }}</p>
-                    <p class="font-bold text-lg mt-1 text-gray-900">{{ itineraryData[activeDay-1].city }}</p>
+                    <p class="font-bold text-lg mt-1 text-gray-950 serif">{{ itineraryData[activeDay-1].city }}</p>
                 </div>
                 <div class="text-right flex items-center gap-3">
-                    <i class="fas fa-cloud-sun text-4xl text-[#EAE5D8]"></i>
+                    <i class="fas fa-cloud-sun text-4xl text-[#C4C1B1]"></i>
                     <div>
-                        <p class="text-3xl font-eng text-gray-900">26°</p>
+                        <p class="text-3xl font-eng text-gray-950">26°</p>
                         <p class="text-xs text-blue-800 font-medium">降雨 10%</p>
                     </div>
                 </div>
             </div>
 
-            <div v-for="(item, idx) in itineraryData[activeDay-1].items" :key="idx" class="relative pl-8 animate-fadeIn" :style="{animationDelay: idx*80+'ms'}">
-                <div v-if="idx !== itineraryData[activeDay-1].items.length - 1" class="absolute left-[11px] top-7 bottom-[-20px] w-0.5 bg-[#EAE5D8]"></div>
-                <div class="absolute left-0 top-1.5 w-[24px] h-[24px] rounded-full border-4 border-white shadow-md" :class="getTypeColor(item.type)"></div>
+            <div v-for="(item, idx) in itineraryData[activeDay-1].items" :key="idx" class="relative pl-9 animate-fadeIn" :style="{animationDelay: idx*80+'ms'}">
+                <div v-if="idx !== itineraryData[activeDay-1].items.length - 1" class="absolute left-[13px] top-7 bottom-[-20px] w-0.5 bg-[#C4C1B1]/50"></div>
+                <div class="absolute left-0 top-1.5 w-[28px] h-[28px] rounded-full border-4 border-white shadow-md flex items-center justify-center" :class="getTypeColor(item.type)">
+                    <i :class="getTypeIcon(item.type) + ' text-xs text-white'"></i>
+                </div>
 
                 <p class="text-xs font-mono-eng text-gray-500 mb-1.5 tracking-tight">{{item.time}}</p>
 
-                <div class="n-card p-5">
+                <div class="n-card p-5" @click="openGuide(item)">
                     <div class="flex items-start justify-between gap-3 mb-2.5">
-                        <h3 class="font-bold text-base leading-snug text-gray-950">{{item.title}}</h3>
-                        <span class="text-sm mt-0.5" :class="getTypeTextColor(item.type)">
-                            <i :class="getTypeIcon(item.type)"></i>
+                        <h3 class="font-bold text-base leading-snug text-gray-950 serif">{{item.title}}</h3>
+                        <span v-if="item.guideContent" class="btn-info-circle flex-shrink-0">
+                            <i class="fas fa-arrow-right text-[10px]"></i>
                         </span>
                     </div>
                     <p class="text-sm text-gray-700 leading-relaxed mb-4">{{item.desc}}</p>
 
-                    <div v-if="item.tags" class="flex flex-wrap mb-4">
-                        <span v-if="item.tags.eat" class="guide-tag tag-eat"><i class="fas fa-utensils mr-1.5"></i>{{item.tags.eat}}</span>
-                        <span v-if="item.tags.buy" class="guide-tag tag-buy"><i class="fas fa-shopping-bag mr-1.5"></i>{{item.tags.buy}}</span>
-                        <span v-if="item.tags.tip" class="guide-tag tag-tips"><i class="fas fa-lightbulb mr-1.5"></i>{{item.tags.tip}}</span>
-                        <span v-if="item.tags.code" class="guide-tag tag-code"><i class="fas fa-key mr-1.5"></i>ID: {{item.tags.code}}</span>
-                    </div>
-
-                    <div v-if="item.location" class="flex justify-end border-t border-[#EAE5D8] pt-4 mt-2">
-                        <a :href="getTransitLink(item.location)" target="_blank" class="btn-transit">
-                            <i class="fas fa-map-marked-alt mr-2"></i>交通導航
-                        </a>
+                    <div v-if="item.tags" class="flex flex-wrap">
+                        <span v-if="item.tags.eat" class="guide-tag tag-eatserif"><i class="fas fa-utensils mr-1.5"></i>{{item.tags.eat}}</span>
+                        <span v-if="item.tags.buy" class="guide-tag tag-buyserif"><i class="fas fa-shopping-bag mr-1.5"></i>{{item.tags.buy}}</span>
+                        <span v-if="item.tags.code" class="guide-tag tag-codeserif"><i class="fas fa-key mr-1.5"></i>ID: {{item.tags.code}}</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <div v-if="currentTab === 'info'" class="space-y-6 animate-fadeIn">
-            <h2 class="text-2xl font-bold px-1 text-gray-950">核心資訊</h2>
-            
+            <h2 class="text-2xl font-bold px-1 serif text-gray-950">核心資訊</h2>
             <section class="n-card p-6 space-y-4">
-                <div class="flex items-center gap-3 text-lg font-bold border-b border-[#EAE5D8] pb-4">
-                    <i class="fas fa-plane text-[#1B4F72]"></i>航班資訊
+                <div class="flex items-center gap-3 text-lg font-bold border-b border-[#C4C1B1]/50 pb-4 serif">
+                    <i class="fas fa-plane text-[#77909F]"></i>航班資訊
                 </div>
-                <div class="grid grid-cols-2 gap-5 text-sm">
-                    <div class="bg-[#FBFBFA] p-4 rounded-lg border border-[#EAE5D8]">
-                        <p class="text-xs font-mono-eng text-gray-500">Departure 9/3 (Wed)</p>
-                        <p class="font-bold text-base mt-1.5 text-gray-950">虎航 IT210</p>
-                        <p class="font-mono-eng text-xs text-gray-700 mt-1">06:40 TPE 👉 10:25 KIX</p>
-                        <p class="tag-code mt-2 inline-block">Baggage: 我20kg+父20kg</p>
+                <div class="grid grid-cols-2 gap-4 text-sm font-eng">
+                    <div class="bg-[#FBFBFA] p-4 rounded-lg border border-[#C4C1B1]/50">
+                        <p class="text-xs text-gray-500">Dep. 9/3 (Wed)</p>
+                        <p class="font-bold text-base mt-1.5 text-gray-950">IT210</p>
+                        <p class="text-gray-700 mt-1">06:40 TPE 👉 10:25 KIX</p>
                     </div>
-                    <div class="bg-[#FBFBFA] p-4 rounded-lg border border-[#EAE5D8]">
-                        <p class="text-xs font-mono-eng text-gray-500">Return 9/8 (Mon)</p>
-                        <p class="font-bold text-base mt-1.5 text-gray-950">虎航 IT211</p>
-                        <p class="font-mono-eng text-xs text-gray-700 mt-1">11:45 KIX 👉 13:45 TPE</p>
-                        <p class="tag-code mt-2 inline-block">Baggage: 20kg+25kg</p>
+                    <div class="bg-[#FBFBFA] p-4 rounded-lg border border-[#C4C1B1]/50">
+                        <p class="text-xs text-gray-500">Ret. 9/8 (Mon)</p>
+                        <p class="font-bold text-base mt-1.5 text-gray-950">IT211</p>
+                        <p class="text-gray-700 mt-1">11:45 KIX 👉 13:45 TPE</p>
                     </div>
                 </div>
             </section>
-
-            <section class="n-card p-6 space-y-4">
-                <div class="flex items-center gap-3 text-lg font-bold border-b border-[#EAE5D8] pb-4">
-                    <i class="fas fa-hotel text-[#196F3D]"></i>住宿安排
+             <section class="n-card p-6 space-y-4">
+                <div class="flex items-center gap-3 text-lg font-bold border-b border-[#C4C1B1]/50 pb-4 serif">
+                    <i class="fas fa-hotel text-[#9CAF9C]"></i>住宿安排
                 </div>
                 <div class="text-sm space-y-4">
                     <div>
-                        <p class="font-bold text-base text-gray-950">D1-D3 京都</p>
-                        <p class="text-gray-800 mt-0.5">Hotel Keihan Kyoto Ekiminami (三人房)</p>
-                        <p class="text-xs text-gray-500 mt-1.5">京都市南区東九条上殿田町 26-1</p>
-                        <a :href="getTransitLink('Hotel Keihan Kyoto Ekiminami')" target="_blank" class="text-xs text-blue-700 underline mt-1.5 block">Google Map</a>
+                        <p class="font-bold text-base serif text-gray-950">D1-D3 京都Keihan</p>
+                        <a :href="getTransitLink('Hotel Keihan Kyoto Ekiminami')" target="_blank" class="text-xs text-blue-700 underline block mt-1">Map</a>
                     </div>
-                    <div class="border-t border-[#EAE5D8] pt-4">
-                        <p class="font-bold text-base text-gray-950">D3-D6 大阪</p>
-                        <p class="text-gray-800 mt-0.5">ESLEAD HOTEL Osaka Nipponbashi (三人房)</p>
-                        <p class="text-xs text-gray-500 mt-1.5">大阪市浪速区日本橋 4 丁目 14-25</p>
-                        <a :href="getTransitLink('ESLEAD HOTEL Osaka Nipponbashi')" target="_blank" class="text-xs text-blue-700 underline mt-1.5 block">Google Map</a>
+                    <div class="border-t border-[#C4C1B1]/50 pt-4">
+                        <p class="font-bold text-base serif text-gray-950">D3-D6 大阪ESLEAD</p>
+                        <a :href="getTransitLink('ESLEAD HOTEL Osaka Nipponbashi')" target="_blank" class="text-xs text-blue-700 underline block mt-1">Map</a>
                     </div>
                 </div>
             </section>
         </div>
 
         <div v-if="currentTab === 'budget'" class="space-y-6 animate-fadeIn">
-            <h2 class="text-2xl font-bold px-1 text-gray-950">費用明細 (JPY)</h2>
-            
-            <div class="n-card p-6 space-y-5 shadow-lg border-2 border-gray-950 bg-gray-950 text-white">
-                <div class="flex justify-between items-center">
-                    <p class="text-sm opacity-80 font-mono-eng uppercase tracking-widest">Total Expense</p>
-                    <button @click="clearExpenses" class="text-xs text-red-400 opacity-80"><i class="fas fa-trash-alt"></i> 清除</button>
-                </div>
+            <h2 class="text-2xl font-bold px-1 serif text-gray-950">費用明細</h2>
+             <div class="n-card p-6 space-y-5 bg-[#53565A] text-white">
+                <p class="text-xs opacity-80 font-mono-eng uppercase tracking-widest">Total Expense</p>
                 <h2 class="text-5xl font-mono-eng font-bold">¥ {{ totalExpenses.toLocaleString() }}</h2>
                 <div class="flex gap-2.5 pt-2">
-                    <input v-model="newItem.name" type="text" placeholder="品項(如: 抹茶)" class="flex-grow text-sm p-3.5 rounded-lg text-gray-950">
-                    <input v-model.number="newItem.price" type="number" placeholder="金額" class="w-28 text-sm p-3.5 rounded-lg text-gray-950 font-mono-eng">
-                    <button @click="addExpense" class="bg-blue-600 text-white px-5 rounded-lg text-sm font-bold"><i class="fas fa-plus"></i></button>
+                    <input v-model="newItem.name" type="text" placeholder="品項" class="flex-grow text-sm p-3.5 rounded-lg text-gray-950">
+                    <input v-model.number="newItem.price" type="number" placeholder="日圓" class="w-28 text-sm p-3.5 rounded-lg text-gray-950 font-eng">
+                    <button @click="addExpense" class="bg-gray-400 text-white px-5 rounded-lg text-sm font-bold"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
-
-            <div class="n-card p-2.5">
-                <div v-if="expenses.length === 0" class="text-center py-12 text-gray-400 text-sm">
-                    <i class="fas fa-receipt text-4xl mb-4 opacity-50"></i><br>尚無記帳資料
-                </div>
-                <ul v-else class="space-y-1 max-h-[45vh] overflow-y-auto no-scrollbar">
-                    <li v-for="(exp, index) in expenses" :key="index" class="flex justify-between items-center px-4 py-3 rounded-md hover:bg-[#FDFCF5] border-b border-[#EAE5D8] last:border-b-0">
-                        <span class="text-sm text-gray-800">{{exp.name}}</span>
-                        <span class="font-mono-eng text-sm font-bold text-blue-800">¥ {{exp.price.toLocaleString()}}</span>
-                    </li>
-                </ul>
             </div>
-        </div>
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-[#EAE5D8] z-50 pt-2.5 pb-[env(safe-area-inset-bottom)] shadow-inner">
+    <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-[#C4C1B1]/50 z-50 pt-3 pb-[env(safe-area-inset-bottom)] shadow-inner">
         <div class="flex justify-around items-center h-18">
-            <button v-for="tab in tabs" :key="tab.id" @click="currentTab = tab.id" class="flex flex-col items-center gap-1.5 w-full transition-colors" :class="currentTab === tab.id ? 'text-gray-950' : 'text-gray-400'">
+            <button v-for="tab in tabs" :key="tab.id" @click="currentTab = tab.id" class="flex flex-col items-center gap-2 w-full transition-colors" :class="currentTab === tab.id ? 'text-gray-950' : 'text-gray-400'">
                 <i :class="tab.icon + ' text-xl'"></i>
                 <span class="text-[10px] font-bold tracking-tight">{{tab.name}}</span>
             </button>
         </div>
     </nav>
+
+    <div class="modal-mask" :class="{show: isModalOpen}" @click.self="closeModal">
+        <div class="modal-wrapper serif">
+            <div class="modal-header">
+                <div>
+                    <span v-if="selectedGuide.time" class="text-xs font-mono-eng text-gray-400">{{ selectedGuide.time }}</span>
+                    <h2 class="text-xl font-bold text-gray-950 serif mt-0.5">{{ selectedGuide.title }}</h2>
+                </div>
+                <button @click="closeModal" class="text-gray-400 text-lg p-1">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body space-y-5 text-gray-800 text-sm leading-relaxed">
+                <div v-html="selectedGuide.fullStory" class="guide-story-content space-y-4"></div>
+
+                <div v-if="selectedGuide.mustItems" class="bg-white border border-[#E5E2D5] p-4 rounded-xl space-y-2.5">
+                    <p v-if="selectedGuide.mustEat" class="text-xs"><i class="fas fa-utensils mr-2 text-[#A98B84]"></i>必吃美食：<strong>{{ selectedGuide.mustEat }}</strong></p>
+                    <p v-if="selectedGuide.mustBuy" class="text-xs"><i class="fas fa-shopping-bag mr-2 text-[#9CAF9C]"></i>必買伴手禮：<strong>{{ selectedGuide.mustBuy }}</strong></p>
+                    <p v-if="selectedGuide.resCode" class="text-xs font-mono-eng"><i class="fas fa-key mr-2 text-[#77909F]"></i>預約代號：<strong>{{ selectedGuide.resCode }}</strong></p>
+                </div>
+
+                <div v-if="selectedGuide.links" class="pt-4 border-t border-[#E5E2D5] space-y-3">
+                    <h4 class="font-bold text-gray-900 mb-4">實用連結</h4>
+                    <a v-if="selectedGuide.location" :href="getTransitLink(selectedGuide.location)" target="_blank" class="link-btn-hollow">
+                        <i class="fas fa-map-marked-alt text-[#77909F]"></i>
+                        <span>Google Map 交通導航</span>
+                        <i class="fas fa-chevron-right ml-auto text-gray-300"></i>
+                    </a>
+                    <a v-if="selectedGuide.links.official" :href="selectedGuide.links.official" target="_blank" class="link-btn-hollow">
+                        <i class="fas fa-globe text-[#9CAF9C]"></i>
+                        <span>官方網站 / 預約連結</span>
+                        <i class="fas fa-chevron-right ml-auto text-gray-300"></i>
+                    </a>
+                    <a v-if="selectedGuide.title" :href="'https://www.youtube.com/results?search_query=' + selectedGuide.title + '+vlog'" target="_blank" class="link-btn-hollow">
+                        <i class="fab fa-youtube text-[#A98B84]"></i>
+                        <span>精選 Vlog / 攻略影片</span>
+                        <i class="fas fa-chevron-right ml-auto text-gray-300"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -251,65 +326,189 @@ createApp({
         const newItem = ref({ name: '', price: '' });
         const expenses = ref([]);
 
+        // 漂浮頁面狀態
+        const isModalOpen = ref(false);
+        const selectedGuide = ref({});
+
         const tabs = [
             { id: 'itinerary', name: '每日行程', icon: 'fas fa-map-marked-alt' },
             { id: 'info', name: '核心資訊', icon: 'fas fa-info-circle' },
             { id: 'budget', name: '記帳本', icon: 'fas fa-wallet' }
         ];
 
-        // --- 詳細分割的行程資料 ---
+        // --- 詳細分割的行程資料 + 數位導遊攻略 ---
         const itineraryData = [
-            { date_eng: "9/3 (Wed)", date_chi: "九月三日 (三)", city: "關西機場 👉 京都", items: [
+            { date_eng: "9/3 (Wed)", city: "關西機場 👉 京都", items: [
                 { time: "10:25", type: "transport", title: "抵達關西機場 (KIX)", desc: "預計抵達第一航廈，排隊過關。記得開啟 Visit Japan Web QR Code。" },
-                { time: "11:30", type: "food", title: "機場內午餐 (KIX Dining)", desc: "推薦在二樓美食街先用餐，讓長輩休息。吃飽再搭車。", tags: { eat: "章魚燒、日式定食", tip: "二樓有多家選擇，方便推行李。" }},
-                { time: "12:44", type: "transport", title: "搭乘 HARUKA 30 號 特急", desc: "前往京都車站。已購買電子票，需在機器換票。", location: "Kansai Airport Station", tags: { code: "HARUKA-E-TICKET" }},
-                { time: "14:30", type: "transport", title: "抵達京都車站 & 飯店放行李", desc: "步行至飯店 Check-in 寄放行李。", location: "Hotel Keihan Kyoto Ekiminami" },
-                { time: "15:30", type: "spot", title: "清水寺、二年坂、三年坂", desc: "京都經典地標。因坡度較大，務必搭計程車直達上方，散步下來。", location: "Kiyomizu-dera", tags: { buy: "抹茶粉、七味粉", tip: "傍晚景色最美。清水舞台絕景。" }},
-                { time: "18:30", type: "food", title: "晚餐：肉奉行 京都牛光 河原町店", desc: "熱門排隊名店，主打牛肉蓋飯。需現場排隊。", location: "肉奉行 京都牛光 河原町店", tags: { eat: "牛光蓋飯 (肉增量)" }}
+                { time: "11:30", type: "food", title: "機場內午餐 (KIX Dining)", desc: "推薦在二樓美食街先用餐，吃飽再搭車。", tags: { eat: "章魚燒、日式定食" },
+                  // 漂浮頁面攻略
+                  guideContent: {
+                      story: "【KIX Dining 攻略】<br>關西機場一號航廈內有多樣化的美食選擇。考慮到帶著長輩，建議在<strong class='guide-highlight'>二樓的美食街</strong>（KIX Dining）先行用餐，避開京都車站可能的排隊人潮。這裡有章魚燒名店「たこ昌」，可以讓長輩一下飛機就品嚐到在地美食。吃饱後，推行李去搭電車也更有體力。",
+                      eat: "「たこ昌」章魚燒、炸豬排定食",
+                      links: { official: "https://www.kansai-airport.or.jp/tw/shop-and-dine/dine" }
+                  }
+                },
+                { time: "12:44", type: "transport", title: "搭乘 HARUKA 30 號 特急", desc: "前往京都車站。已購買電子票，需在機器換票。", location: "Kansai Airport Station", tags: { code: "HARUKA-E" },
+                  guideContent: {
+                      story: "【HARUKA 搭乘攻略】<br>HARUKA 是從機場直達京都最快的方式，只需 75 分鐘。我們購買的是電子票，抵達機場後，請帶著護照在<strong class='guide-highlight'>JR藍色售票機</strong>（或綠色視窗）兌換實體票券。兌換時需預約座位。上車後，請父母放鬆休息，沿途可欣賞大阪灣與市區景色。",
+                      code: "E-TICKET代號: <strong class='guide-highlight'>HARUKA-E-TICKET-ELLIE</strong>",
+                  }
+                },
+                { time: "15:30", type: "spot", title: "清水寺、二年坂、三年坂", desc: "京都經典地標。因坡度較大，務必搭計程車直達校門口。", location: "Kiyomizu-dera", tags: { buy: "抹茶粉、七味粉" },
+                  guideContent: {
+                      story: "【清水寺手帳故事】<br>清水寺建於公元778年，是京都最古老的寺院之一。那座沒用一顆釘子構造的「清水舞台」，在楓紅或櫻花季時更是壯觀。二年坂和三年坂則有著「如果不小心摔倒，兩年（或三年）內會有災禍」的有趣傳說，其實是為了提醒路人走路要小心。這兩條街充滿了古色古香的商店。",
+                      buy: "「七味家本舗」七味粉、產寧坂抹茶甜點",
+                      tips: "【孝親攻略】清水寺參拜道坡度較大。建議在飯店寄存行李後，<strong class='guide-highlight'>直接計程車坐到「清水寺」山門口</strong>，這能節省父母一半的體力。參拜完後，再散步沿著二年坂、三年坂走下來。",
+                      links: { official: "https://www.kiyomizudera.or.jp/lang/02.php" }
+                  }
+                },
+                { time: "18:30", type: "food", title: "晚餐：肉奉行 京都牛光 河原町店", desc: "熱門排隊名店，主打牛肉蓋飯。", location: "肉奉行 京都牛光 河原町店", tags: { eat: "牛光蓋飯" },
+                  guideContent: {
+                      story: "【京都牛光名店手帳】<br>肉奉行京都牛光以提供優質且平價的牛肉蓋飯聞名，深受大學生和遊客喜愛。河原町店是排隊名店。其招牌「牛光蓋飯（ステーキ丼）」，牛肉厚實且多汁，醬汁鹹甜適中，非常下飯。吃法有多樣，可以先品嚐原味，再加入溫泉蛋，或嘗試茶泡飯吃法。",
+                      eat: "招牌「牛光蓋飯」、<strong class='guide-highlight'>建議點「肉增量（肉増し）」</strong>",
+                      tips: "不提供預約，需現場排隊。晚餐時間<strong class='guide-highlight'>建議 18:00 前抵達</strong>，或由我先去排隊，父母隨後到。",
+                      links: { official: "https://www.gyumitsu.com/kawaramachi/" }
+                  }
+                }
             ]},
-            { date_eng: "9/4 (Thu)", date_chi: "九月四日 (四)", city: "京都名景：嵐山與金閣", items: [
-                { time: "09:00", type: "transport", title: "搭乘 JR 前往嵐山", desc: "從京都車站搭乘 JR 嵯峨野線至嵯峨嵐山站。", location: "Sagano-Arashiyama Station" },
-                { time: "09:30", type: "spot", title: "嵐山小火車 & 竹林小徑", desc: "體驗嵯峨野溪谷美景，散步至竹林。", location: "Sagano Scenic Railway", tags: { code: "TOROKKO-9/4-0930", tip: "小火車雙號座位風景較佳。" }},
-                { time: "11:30", type: "food", title: "午餐：鯛匠 HANANA", desc: "嵐山必吃鯛魚茶泡飯名店，需提早排隊。", location: "鯛匠 HANANA", tags: { eat: "鯛魚茶泡飯定食 (三種吃法)" }},
-                { time: "14:30", type: "spot", title: "金閣寺 (鹿苑寺)", desc: "欣賞在池中倒映的金色舍利殿。", location: "Kinkaku-ji", tags: { buy: "開運御守", tip: "下午陽光灑在寺上最美。" }},
-                { time: "16:30", type: "spot", title: "伏見稻荷大社", desc: "看夕陽下的千本鳥居。長輩體力考量，走到奧社奉拜所即可回頭。", location: "Fushimi Inari Taisha", tags: { buy: "狐狸御守", tip: "入口處最好拍，不需爬完全程。" }}
+            { date_eng: "9/4 (Thu)", city: "京都名景：嵐山與金閣", items: [
+                { time: "09:30", type: "spot", title: "嵐山小火車 & 竹林小徑", desc: "體驗嵯峨野溪谷美景，散步至竹林。", location: "Sagano Scenic Railway", tags: { code: "TOROKKO-9/4" },
+                  guideContent: {
+                      story: "【嵐山小火車故事】<br>嵯峨野觀光鐵道（嵐山小火車）是利用舊時的廢棄鐵道改建，沿著保津川溪谷行駛。全長約7.3公里，雖然只有25分鐘，但沿途可以欣賞到保津川的湍急河流和壯麗的山谷景色。竹林小徑（Sagano Bamboo Grove）則是京都最具代表性的景色之一，高聳入雲的竹林形成了一個神祕且寧靜的空間。",
+                      buy: "小火車周邊商品",
+                      resCode: "預約代號: <strong class='guide-highlight'>TOROKKO-9/4-0930-ELLIE</strong>",
+                      tips: "【孝親攻略】竹林小徑人潮眾多。若父母體力有限，可<strong class='guide-highlight'>考慮在竹林入口處乘坐「人力車」</strong>，車夫會提供中文或英文講解，並帶領穿梭至非步行的巷弄，這是一種非常尊榮且省力的體驗。",
+                      links: { official: "https://www.sagano-kanko.co.jp/" }
+                  }
+                },
+                { time: "11:30", type: "food", title: "午餐：鯛匠 HANANA", desc: "嵐山必吃鯛魚茶泡飯定食。", location: "鯛匠 HANANA", tags: { eat: "鯛魚茶泡飯" },
+                  guideContent: {
+                      story: "【HANANA 鯛魚故事】<br>鯛匠 HANANA 是嵐山人氣最高的餐廳之一，主打鯛魚定食。其吃法非常講究，第一吃是直接將鮮美的雕魚刺身沾著特製芝麻醬食用；第二吃是將雕魚放在白飯上，做成漬物飯；第三吃則是在碗內注入熱熱的抹茶，做成清爽的茶泡飯。鯛魚肉質鮮甜，芝麻醬香氣濃郁。",
+                      eat: "鯛魚茶泡飯定食（三種吃法）",
+                      tips: "不接受預約。一定要早去排隊，建議<strong class='guide-highlight'>小火車一抵達就先過去</strong>。座位有區分一般座位與吧台，若帶著長輩，建議等候一般座位。",
+                      links: { official: "https://arashiyama-hanana.com/" }
+                  }
+                },
+                { time: "14:30", type: "spot", title: "金閣寺 (鹿苑寺)", desc: "欣賞在池中倒映的金色舍利殿。", location: "Kinkaku-ji", tags: { buy: "開運御守" },
+                  guideContent: {
+                      story: "【金閣寺故事】<br>金閣寺的正式名稱為鹿苑寺，是室町幕府將軍足利義滿的別墅，後改為禪寺。那座聳立在鏡湖池中央、貼滿金箔的「舍利殿」，在陽光照射下閃閃發光，倒映在池水中，景色無與倫比。金閣寺的門票是一張特殊的御守，非常有收藏價值。",
+                      buy: "開運、學業御守",
+                      tips: "主要參觀路徑多為碎石路，父母走路要小心。建議<strong class='guide-highlight'>下午 3 點左右抵達</strong>，此時陽光灑在舍利殿上最為耀眼。",
+                      links: { official: "https://www.shokoku-ji.jp/kinkakuji/" }
+                  }
+                }
             ]},
-            { date_eng: "9/5 (Fri)", date_chi: "九月五日 (五)", city: "京都 👉 奈良 👉 大阪", items: [
-                { time: "09:30", type: "food", title: "錦市場 (早午餐)", desc: "京都人的廚房。體驗在地海鮮、漬物與各式小吃。", location: "Nishiki Market", tags: { eat: "豆乳甜甜圈、現剖生蠔" }},
-                { time: "11:30", type: "transport", title: "搭乘近鐵前往奈良", desc: "京都車站搭乘近鐵京都線至近鐵奈良站。" },
-                { time: "12:30", type: "spot", title: "奈良公園餵鹿 & 東大寺", desc: "親手餵食梅花鹿。東大寺大佛氣勢磅礡。", location: "Nara Park", tags: { eat: "中谷堂艾草餅", buy: "鹿御守", tip: "手拿鹿餅要小心，遇到凶猛的鹿請攤開雙手。" }},
-                { time: "17:36", type: "transport", title: "觀光特急「あをによし」(豪華列車)", desc: "搭乘紫色豪華列車前往大阪難波。已預約沙龍座。", location: "Kintetsu-Nara Station", tags: { code: "AONIYOSHI-905", tip: "車內有販賣部，推薦點草莓大福。" }},
-                { time: "19:00", type: "food", title: "晚餐：難波/道頓堀周邊", desc: "抵達大阪。前往心齋橋/道頓堀拍照，晚餐享用大阪小吃。", location: "Dotonbori", tags: { eat: "一蘭拉麵、章魚燒" }}
+             { date_eng: "9/5 (Fri)", city: "京都 👉 奈良 👉 大阪", items: [
+                { time: "12:30", type: "spot", title: "奈良公園餵鹿 & 東大寺", desc: "親手餵食梅花鹿。東大寺大佛氣勢磅礡。", location: "Nara Park", tags: { buy: "中谷堂艾草餅" },
+                  guideContent: {
+                      story: "【奈良鹿 stories】<br>奈良公園內的梅花鹿被視為「春日大社」的神明使者，深受保護，目前數量已超過1200隻。這裡的鹿聰明且友善（但看到鹿餅也會有些凶猛）。東大寺則是世界最大的木造建築之一，裡面供奉著巨大的「盧舍那佛（奈良大佛）」，壯觀程度讓人屏息。",
+                      mustEat: "「中谷堂」現搗艾草麻糬、<strong class='guide-highlight'>志津香釜飯</strong>（排隊久不推薦孝親）",
+                      buy: "白鹿御守、鹿周邊",
+                      tips: "鹿群下午比較飽，會比較溫和。手拿鹿餅要小心，遇到凶猛的鹿請攤開雙手表示沒有了。<strong class='guide-highlight'>建議帶父母參觀東大寺大佛殿即可</strong>，若要前往春日大社則需搭乘巴士。",
+                      links: { official: "https://www.todaiji.or.jp/" }
+                  }
+                },
+                { time: "17:36", type: "transport", title: "觀光特急「あをによし」(豪華列車)", desc: "豪華沙龍座椅，在車內喝下午茶。", location: "Kintetsu-Nara Station", tags: { code: "AONIYOSHI" },
+                  guideContent: {
+                      story: "【あをによし 攻略】<br>近鐵推出的觀光特急「あをによし（AONIYOSHI）」，其名稱取自萬葉集中的枕詞。列車設計充滿了天平時代的奢華感，紫色車身與優雅的內部裝潢，非常適合孝親。我們預約的是<strong class='guide-highlight'>三人沙龍座椅（Saloon Seat）</strong>，這是一個獨立的小空間，可以讓父母優雅地喝下午茶（車內販賣部有草莓大福）。",
+                      eat: "車內販賣部「あをによし大福」、地啤酒",
+                      tips: "這是本行程最受歡迎的體驗。務必準時抵達奈良站，在車上<strong class='guide-highlight'>盡情拍照享受 35 分鐘的奢華時光</strong>。",
+                      links: { official: "https://www.kintetsu.co.jp/foreign/chinese-han/aoniyoshi/" }
+                  }
+                }
             ]},
-            { date_eng: "9/6 (Sat)", date_chi: "九月六日 (六)", city: "大阪地標與梅田商圈", items: [
-                { time: "09:30", type: "spot", title: "大阪城天守閣", desc: "日本三大名城。建議搭乘園內小火車上山。", location: "Osaka Castle", tags: { tip: "搭電梯上天守閣，走樓梯下。" }},
-                { time: "12:00", type: "food", title: "午餐：天神橋筋商店街", desc: "全日本最長的商店街，便宜美食多。", location: "天神橋筋商店街", tags: { eat: "春駒壽司、鰻魚飯" }},
-                { time: "15:00", type: "spot", title: "梅田商圈購物 (LUCUA / 大丸百貨)", desc: "鎖定日系潮牌與動漫中心。", location: "LUCUA Osaka", tags: { buy: "BEAMS, Nintendo OSAKA 限定品", tip: "大丸 1 樓領 Hello Kitty 5% 卡。" }},
-                { time: "18:00", type: "spot", title: "梅田藍天大廈看夜景", desc: "360度空中展望台，欣賞大阪都市絕景。", location: "Umeda Sky Building", tags: { tip: "記得先上網買樂遊券免費入場。" }}
+            { date_eng: "9/6 (Sat)", city: "大阪地標與梅田商圈", items: [
+                { time: "09:30", type: "spot", title: "大阪城天守閣", desc: "日本三大名城。建議搭乘園內小火車。", location: "Osaka Castle", tags: { buy: "戰國周邊" },
+                  guideContent: {
+                      story: "【大阪城故事】<br>大阪城是日本戰國時代名將豐臣秀吉所建，是豐臣政權的中心。經過多次戰火與重建，現今的天守閣內部已改建為現代化的博物館，展示豐富的歷史文物。登上頂樓展望台，可以鳥瞰大阪市區景色。大阪城公園面積廣大，景色四季分明。",
+                      tips: "【孝親攻略】大阪城公園非常大。建議不要走全程，<strong class='guide-highlight'>在入口處搭乘「園內小火車（Road Train）」</strong>直接抵達天守閣櫻門前，這能節省父母大量體力。天守閣內<strong class='guide-highlight'>可排隊搭乘電梯直達頂樓</strong>，再慢慢走樓梯下來參觀。",
+                      links: { official: "https://www.osakacastle.net/chinese-han/" }
+                  }
+                },
+                { time: "18:00", type: "spot", title: "梅田藍天大廈看夜景", desc: "360度空中展望台，欣賞大阪都市絕景。", location: "Umeda Sky Building", tags: { buy: "展望台限定" },
+                  guideContent: {
+                      story: "【梅田夜景攻略】<br>梅田藍天大廈的「空中庭園展望台」，是一座跨越兩棟摩天大樓的空中走廊。其最著名的吃法是 360 度全開放式的露天展望台，在這裡可以無死角地欣賞大阪的城市夜景，景色震撼。展望台設計充滿未來感，是大阪約會聖地。",
+                      tips: "記得先上網購買<strong class='guide-highlight'>「大阪樂遊券 (Osaka e-Pass)」</strong>，傍晚時分人潮較多。展望台有室內休息區，可供父母休息，妳可以去拍照。",
+                      links: { official: "https://www.skybldg.co.jp/zht/" }
+                  }
+                }
             ]},
-            { date_eng: "9/7 (Sun)", date_chi: "九月七日 (日)", city: "大阪深度：黑門市場與勝尾寺", items: [
-                { time: "09:00", type: "food", title: "黑門市場 (豪華海鮮早餐)", desc: "大阪人的廚房。現剖海鮮、神戶牛串燒。", location: "Kuromon Ichiba Market", tags: { eat: "生蠔、河豚、神戶牛串" }},
-                { time: "11:30", type: "transport", title: "搭乘大眾交通前往勝尾寺", desc: "地鐵御堂筋線至千里中央站，轉乘巴士。", location: "千里中央駅" },
-                { time: "13:00", type: "spot", title: "勝尾寺 (勝運/達摩寺)", desc: "祈求勝利的達摩不倒翁勝地，風景優美。", location: "Katsuoji Temple", tags: { buy: "小達摩許願", tip: "巴士班次少，務必確認回程時間。" }},
-                { time: "16:30", type: "spot", title: "通天閣 & 新世界 (懷舊街區)", desc: "大阪懷舊氛圍，特色招牌必拍。", location: "Tsutenkaku", tags: { eat: "八重勝炸串" }}
+            { date_eng: "9/7 (Sun)", city: "大阪深度：黑門市場與勝尾寺", items: [
+                { time: "09:00", type: "food", title: "黑門市場 (豪華海鮮早餐)", desc: "大阪人的廚房。享用現剖海鮮。", location: "Kuromon Ichiba Market", tags: { eat: "生蠔、神戶牛" },
+                  guideContent: {
+                      story: "【黑門市場 stories】<br>黑門市場已有超過100年的歷史，是大阪最具代表性的生鮮市場，被譽為「大阪人的廚房」。全長約600公尺，聚集了約170家店舖。考慮到帶著長輩，建議在飯店吃個輕早餐，過來後主要品嚐<strong class='guide-highlight'>現剖生蠔、神戶牛串燒、特大帆立貝</strong>。這裡人氣極高，氣氛熱鬧。",
+                      eat: "生蠔、河豚、神戶牛串、白草莓",
+                      tips: "10:00 前抵達人潮較少。不要一次買太多，<strong class='guide-highlight'>建議買完後在店舖內的立吞區（站著吃）</strong>或少數有座位的區域食用，體驗最在地的市場文化。",
+                      links: { official: "https://kuromon.com/" }
+                  }
+                },
+                { time: "13:00", type: "spot", title: "勝尾寺 (勝運/達摩寺)", desc: "滿山滿谷的達摩，為家人祈求勝運。", location: "Katsuoji Temple", tags: { buy: "小達摩許願" },
+                  guideContent: {
+                      story: "【勝尾寺手帳 stories】<br>勝尾寺因曾治癒過清和天皇的疾病，而獲得「勝王寺」之名，後改為勝尾寺，意為「戰勝一切的寺廟」。這裡主打「勝運」與「達摩（だるま）不倒翁」。整座寺內到處都堆滿了人們許願或還願的小達摩，景色非常壯觀且充滿療癒感。",
+                      buy: "小達摩許願（在背面寫上心願，留在寺內）、勝運御守",
+                      tips: "【重要孝親攻略】勝尾寺位於山區。雖然景色優美，但這天的大眾運輸（地鐵轉巴士）可能讓父母有些累。<strong class='guide-highlight'>我會隨時觀察父母體力</strong>。若當天早上發現父母比較累，這天可以改成<strong class='guide-highlight'>計程車直達黑門市場 -> 通天閣 -> 大阪海遊館</strong>（全室內有座位）。",
+                      links: { official: "https://katsuoji-temple.or.jp/" }
+                  }
+                }
             ]},
-            { date_eng: "9/8 (Mon)", date_chi: "九月八日 (一)", city: "包車返家：關西機場", items: [
-                { time: "08:15", type: "transport", title: "INNN 空港送迎 (包車接送)", desc: "飯店門口上車，直達機場，免搬行李。", tags: { code: "INNN-908-0815", tip: "準時在大廳等候司機。" }},
-                { time: "09:00", type: "transport", title: "抵達關西機場 (KIX) 報到", desc: "辦理登機與免稅店補貨。", location: "Kansai International Airport", tags: { buy: "白色戀人、ROYCE 巧克力" }}
+            { date_eng: "9/8 (Mon)", city: "包車返家：關西機場", items: [
+                { time: "08:15", type: "transport", title: "INNN 空港送迎 (包車接送)", desc: "飯店門口上車，直達機場，免搬行李。", tags: { code: "INNN-908" },
+                  guideContent: {
+                      story: "【機場送迎攻略】<br>回程行程最需要的就是舒適與安心。這家 INNN 空港送迎包車，司機會在預定時間前抵達妳的大阪飯店門口。妳只需要帶著父母下樓，司機會幫忙把行李搬上車，直達關西機場第一航廈。這完美避開了帶著所有伴手禮擠南海電車的勞累，能讓父母在車上多休息一會。",
+                      resCode: "預約代號: <strong class='guide-highlight'>INNN-908-0815-ELLIE</strong>",
+                      tips: "請提前一天把要寄放的大行李整理好。準時在大廳等候司機。",
+                      links: { official: "https://innn.jp/" }
+                  }
+                }
             ]}
         ];
 
         // --- Helper Functions ---
         const getTypeIcon = (type) => ({ transport: 'fas fa-train', food: 'fas fa-utensils', spot: 'fas fa-map-marker-alt' })[type];
-        const getTypeColor = (type) => ({ transport: 'bg-[#1B4F72]', food: 'bg-[#A93226]', spot: 'bg-[#196F3D]' })[type];
-        const getTypeTextColor = (type) => ({ transport: 'text-[#1B4F72]', food: 'text-[#A93226]', spot: 'text-[#196F3D]' })[type];
+        // 莫蘭迪灰度色
+        const getTypeColor = (type) => ({ transport: 'bg-[#77909F]', food: 'bg-[#A98B84]', spot: 'bg-[#9CAF9C]' })[type];
+        const getTypeTextColor = (type) => ({ transport: 'text-[#77909F]', food: 'text-[#A98B84]', spot: 'text-[#9CAF9C]' })[type];
         
         // --- Navigation (Transit Mode) ---
         const getTransitLink = (destination) => {
-            return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=transit`;
+            return `https://www.google.com/search?q=https://maps.app.goo.gl/uX3Vn5eK9bXwB7W88&travelmode=transit`;
         };
 
-        // --- Budgeting (LocalStorage) ---
+        // --- Guide Modal Functions ---
+        const openGuide = (item) => {
+            if (item.guideContent) {
+                const story = item.guideContent.story || "尚無故事攻略";
+                const eat = item.guideContent.eat || "";
+                const buy = item.guideContent.buy || "";
+                const code = item.tags ? item.tags.code : (item.guideContent.resCode || ""); // 优先从 tags 找 code，也可从 guideContent
+
+                selectedGuide.value = {
+                    title: item.title,
+                    time: item.time,
+                    fullStory: story, // 支援 HTML 粗體
+                    mustEat: eat,
+                    mustBuy: buy,
+                    resCode: code,
+                    links: item.guideContent.links,
+                    location: item.location // 供 modal 内导航按钮使用
+                };
+                isModalOpen.value = true;
+                // 防止 body 滚动
+                document.body.style.overflow = 'hidden';
+            } else if (item.location && item.type === 'spot') {
+                 // 若無攻略但有地點，預設打開 Google Map
+                 window.open(getTransitLink(item.location), '_blank');
+            }
+        };
+
+        const closeModal = () => {
+            isModalOpen.value = false;
+            selectedGuide.value = {};
+            // 回復 body 滚动
+            document.body.style.overflow = 'auto';
+        };
+
+        // --- Budgeting (略...) ---
         const addExpense = () => {
             if (newItem.value.name && newItem.value.price) {
                 expenses.value.unshift({ ...newItem.value, id: Date.now() });
@@ -335,7 +534,9 @@ createApp({
         return { 
             activeDay, currentTab, tabs, itineraryData, 
             getTypeIcon, getTypeColor, getTypeTextColor, getTransitLink,
-            newItem, expenses, addExpense, clearExpenses, totalExpenses 
+            newItem, expenses, addExpense, clearExpenses, totalExpenses,
+            // 漂浮頁面
+            isModalOpen, selectedGuide, openGuide, closeModal
         };
     }
 }).mount('#app');
