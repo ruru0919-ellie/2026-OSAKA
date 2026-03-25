@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ellie 的京阪奈孝親之旅</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background-color: #f8fafc; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 16px; overflow: hidden; }
+        .nav-active { color: #2563eb; border-top: 3px solid #2563eb; }
+        .time-tag { background: #eff6ff; color: #2563eb; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; }
+    </style>
+</head>
+<body class="pb-20">
+
+    <div class="bg-blue-600 text-white p-6 shadow-lg text-center">
+        <h1 class="text-2xl font-bold">京阪奈 6D5N 慢活之旅</h1>
+        <p class="text-sm opacity-80 mt-1">2026/09/03 - 09/08</p>
+    </div>
+
+    <div class="p-4" id="main-content">
+        </div>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around items-center text-xs pb-2 pt-2 shadow-2xl">
+        <button onclick="showPage('itinerary')" class="nav-item flex flex-col items-center gap-1 active nav-active w-full">
+            <i class="fas fa-calendar-day text-lg"></i><span>每日行程</span>
+        </button>
+        <button onclick="showPage('traffic')" class="nav-item flex flex-col items-center gap-1 w-full text-gray-500">
+            <i class="fas fa-train text-lg"></i><span>交通/住宿</span>
+        </button>
+        <button onclick="showPage('checklist')" class="nav-item flex flex-col items-center gap-1 w-full text-gray-500">
+            <i class="fas fa-suitcase text-lg"></i><span>行前清單</span>
+        </button>
+        <button onclick="showPage('budget')" class="nav-item flex flex-col items-center gap-1 w-full text-gray-500">
+            <i class="fas fa-wallet text-lg"></i><span>預算建議</span>
+        </button>
+    </nav>
+
+    <script>
+        const tripData = {
+            itinerary: [
+                { day: "Day 1 (9/3)", theme: "前進京都：清水寺之美", items: [
+                    { time: "10:25", event: "抵達關西機場 (KIX)", desc: "領取行李、購買/領取交通票券" },
+                    { time: "11:00", event: "機場內午餐 (KIX Dining)", desc: "填飽肚子後再出發" },
+                    { time: "12:44", event: "搭乘 HARUKA 30 號", desc: "直接前往京都車站", link: "https://maps.app.goo.gl/9ZpL8jY8C3y2n1Gz7" },
+                    { time: "15:30", event: "清水寺、二年坂、三年坂", desc: "搭計程車上山，散步下山，享用抹茶甜點", link: "https://maps.app.goo.gl/xSj9Xq1A3p6C7j1R6" },
+                    { time: "18:30", event: "晚餐：肉奉行 京都牛光", desc: "熱門河原町店建議提早排隊", link: "https://maps.app.goo.gl/yY7ZpY8C3y2n1Gz7" }
+                ]},
+                { day: "Day 2 (9/4)", theme: "京都名景：嵐山與金閣", items: [
+                    { time: "09:30", event: "嵐山小火車", desc: "體驗嵯峨野溪谷美景", link: "https://maps.app.goo.gl/T4Y6j8J9p2L2" },
+                    { time: "11:30", event: "午餐：鯛匠 HANANA", desc: "嵐山必吃鯛魚茶泡飯", link: "https://maps.app.goo.gl/B9ZpL8jY8C3y2n1Gz7" },
+                    { time: "14:30", event: "金閣寺", desc: "必看金色舍利殿", link: "https://maps.app.goo.gl/x9ZpL8jY8C3y2n1Gz7" },
+                    { time: "16:30", event: "伏見稻荷大社", desc: "千本鳥居夕陽攝影", link: "https://maps.app.goo.gl/A9ZpL8jY8C3y2n1Gz7" }
+                ]},
+                { day: "Day 3 (9/5)", theme: "古都巡禮：奈良餵鹿與觀光列車", items: [
+                    { time: "09:00", event: "錦市場", desc: "早午餐：體驗京都人的廚房", link: "https://maps.app.goo.gl/C9ZpL8jY8C3y2n1Gz7" },
+                    { time: "11:30", event: "奈良公園、東大寺", desc: "餵鹿體驗與世界文化遺產", link: "https://maps.app.goo.gl/D9ZpL8jY8C3y2n1Gz7" },
+                    { time: "17:36", event: "搭乘「あをによし」觀光特急", desc: "豪華列車前往大阪", link: "https://www.kintetsu.co.jp/foreign/chinese-han/aoniyoshi/" },
+                    { time: "19:30", event: "道頓堀、心齋橋", desc: "夜晚散步，看跑跑卡丁車廣告看板", link: "https://maps.app.goo.gl/E9ZpL8jY8C3y2n1Gz7" }
+                ]},
+                { day: "Day 4 (9/6)", theme: "大阪地標：百貨商圈與夜景", items: [
+                    { time: "09:30", event: "大阪城天守閣", desc: "建議搭乘園區小火車，減少步行" },
+                    { time: "12:00", event: "天神橋筋商店街", desc: "午餐與在地百貨小店探索" },
+                    { time: "15:00", event: "梅田商圈：LUCUA/大丸百貨", desc: "鎖定日系潮牌與任天堂中心" },
+                    { time: "18:00", event: "梅田藍天大廈", desc: "360度空中展望台看夜景", link: "https://maps.app.goo.gl/F9ZpL8jY8C3y2n1Gz7" }
+                ]},
+                { day: "Day 5 (9/7)", theme: "大阪深度：黑門市場與勝尾寺", items: [
+                    { time: "09:00", event: "黑門市場", desc: "奢華海鮮早餐，就在飯店樓下", link: "https://maps.app.goo.gl/G9ZpL8jY8C3y2n1Gz7" },
+                    { time: "12:30", event: "勝尾寺", desc: "滿滿的達摩不倒翁，風景優美", link: "https://maps.app.goo.gl/H9ZpL8jY8C3y2n1Gz7" },
+                    { time: "16:00", event: "通天閣、新世界", desc: "懷舊氛圍，推薦吃炸串", link: "https://maps.app.goo.gl/I9ZpL8jY8C3y2n1Gz7" }
+                ]},
+                { day: "Day 6 (9/8)", theme: "尊榮返家：機場包車", items: [
+                    { time: "08:15", event: "INNN 空港送迎 包車", desc: "從飯店門口直接上車，免搬行李" },
+                    { time: "09:00", event: "抵達關西機場", desc: "辦理登機報到與免稅店最後衝刺" },
+                    { time: "11:45", event: "起飛返台 (IT211)", desc: "帶著滿滿回憶回家囉！" }
+                ]}
+            ]
+        };
+
+        function showPage(page) {
+            const content = document.getElementById('main-content');
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('nav-active', 'text-blue-600'));
+            navItems.forEach(item => item.classList.add('text-gray-500'));
+            
+            event.currentTarget.classList.add('nav-active', 'text-blue-600');
+            event.currentTarget.classList.remove('text-gray-500');
+
+            if (page === 'itinerary') {
+                content.innerHTML = tripData.itinerary.map(day => `
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold text-blue-800 mb-3 border-l-4 border-blue-600 pl-2">${day.day}</h2>
+                        <p class="text-sm text-gray-600 mb-4">${day.theme}</p>
+                        ${day.items.map(item => `
+                            <div class="card p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="time-tag">${item.time}</span>
+                                    ${item.link ? `<a href="${item.link}" target="_blank" class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold"><i class="fas fa-map-marker-alt mr-1"></i>導航</a>` : ''}
+                                </div>
+                                <h3 class="font-bold text-gray-800">${item.event}</h3>
+                                <p class="text-sm text-gray-500 mt-1">${item.desc}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `).join('');
+            } else if (page === 'traffic') {
+                content.innerHTML = `
+                    <h2 class="text-xl font-bold mb-4">住宿資訊</h2>
+                    <div class="card p-4 mb-6">
+                        <p class="font-bold">🏨 京都：Hotel Keihan Kyoto Ekiminami</p>
+                        <p class="text-sm text-gray-600">地址：京都市南区東九条上殿田町 26-1</p>
+                    </div>
+                    <div class="card p-4 mb-6">
+                        <p class="font-bold">🏨 大阪：ESLEAD HOTEL Osaka Nipponbashi</p>
+                        <p class="text-sm text-gray-600">地址：大阪市浪速区日本橋 4 丁目 14-25</p>
+                    </div>
+                    <h2 class="text-xl font-bold mb-4">重點交通預約</h2>
+                    <ul class="list-disc pl-5 text-sm space-y-2 text-gray-700">
+                        <li><b>HARUKA 特急：</b>機場→京都最速。</li>
+                        <li><b>あをによし：</b>9/5 17:36 奈良發車 (8/5 準時官網預約)。</li>
+                        <li><b>機場接送：</b>9/8 08:15 飯店出發 (INNN 包車)。</li>
+                    </ul>
+                `;
+            } else if (page === 'checklist') {
+                content.innerHTML = `
+                    <h2 class="text-xl font-bold mb-4">行前檢查清單</h2>
+                    <div class="card p-4">
+                        <ul class="space-y-3">
+                            <li><input type="checkbox"> 護照 (效期六個月以上)</li>
+                            <li><input type="checkbox"> Visit Japan Web (VJW) QR Code</li>
+                            <li><input type="checkbox"> eSIM/網卡設定好</li>
+                            <li><input type="checkbox"> 父親的休足時間與常備藥</li>
+                            <li><input type="checkbox"> 三人份的好穿走路鞋</li>
+                            <li><input type="checkbox"> 手機掛繩 (拍照不手滑)</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (page === 'budget') {
+                content.innerHTML = `
+                    <h2 class="text-xl font-bold mb-4">預算規劃 (每人每日)</h2>
+                    <div class="card p-4 space-y-4">
+                        <div class="flex justify-between border-b pb-2"><span>餐費</span><span class="font-bold text-blue-600">5,000 JPY</span></div>
+                        <div class="flex justify-between border-b pb-2"><span>交通費</span><span class="font-bold text-blue-600">2,500 JPY</span></div>
+                        <div class="flex justify-between border-b pb-2"><span>門票/購物</span><span class="font-bold text-blue-600">2,500 JPY</span></div>
+                        <div class="bg-blue-50 p-2 text-center font-bold">每日預估：10,000 JPY (約 NT$2,000)</div>
+                    </div>
+                `;
+            }
+            window.scrollTo(0, 0);
+        }
+
+        // 預設載入第一頁
+        window.onload = () => showPage('itinerary');
+    </script>
+</body>
+</html>
