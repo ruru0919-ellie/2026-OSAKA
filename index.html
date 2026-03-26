@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>2026京阪奈 - V12.0</title>
+    <title>2026京阪奈</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -21,7 +21,6 @@
         .font-eng { font-family: 'Courier Prime', monospace; font-weight: 700; }
         .serif { font-family: 'Noto Serif TC', serif; }
 
-        /* 卡片與容器 */
         .n-card { background: var(--card-bg); border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #F0F0F0; overflow: hidden; }
         
         /* 頂部選取器 */
@@ -29,7 +28,7 @@
         .day-item { text-align: center; min-width: 45px; opacity: 0.3; transition: 0.3s; }
         .day-item.active { opacity: 1; color: var(--mo-red); border-bottom: 2px solid var(--mo-red); }
 
-        /* 時間軸與分類 Icon (修正點2) */
+        /* 時間軸與分類 Icon */
         .timeline-container { position: relative; padding-left: 56px; }
         .timeline-line { position: absolute; left: 24px; top: 8px; bottom: -24px; width: 1px; background: #E0DDD5; }
         .type-icon-circle { 
@@ -47,10 +46,11 @@
         .modal-wrapper { width: 100%; max-width: 500px; height: 92vh; background-color: #FDFDFB; border-radius: 24px 24px 0 0; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; display: flex; flex-direction: column; }
         .modal-mask.show .modal-wrapper { transform: translateY(0); }
 
-        /* UI 元素 */
+        /* UI 元素複刻 */
         .ticket-ui { background: #FFFFFF; border-radius: 12px; border: 1px solid #EDEDED; padding: 20px; margin-bottom: 20px; }
         .conf-no-box { border: 1px dashed #DDD; background: #F9F9F9; padding: 15px; border-radius: 8px; margin-top: 10px; }
         .point-speak-box { border: 1px solid #EEE; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; background: white; margin-bottom: 8px; }
+        .btn-blue-hollow { border: 1.5px solid #E6EAF2; border-radius: 8px; color: #235A94; font-weight: 600; padding: 12px; display: flex; items-center; justify-content: center; gap: 8px; font-size: 14px; }
     </style>
 </head>
 <body class="pb-32">
@@ -83,7 +83,6 @@
                 <div class="type-icon-circle" :class="'bg-' + item.type">
                     <i :class="getTypeIcon(item.type)"></i>
                 </div>
-
                 <p class="text-[11px] font-eng text-gray-950 font-bold mb-1">{{ item.time }}</p>
                 <div class="n-card p-5 mb-6" @click="openGuide(item)">
                     <div class="flex justify-between items-start mb-2">
@@ -115,29 +114,14 @@
                     <div><p class="text-gray-400 font-eng">9/8 IT211</p><p class="font-bold text-gray-800">11:45 > 13:45</p><p class="text-red-800">Baggage: 45kg</p></div>
                 </div>
             </section>
-
             <section class="bg-[#1A1A1A] rounded-xl p-6 text-white flex justify-between items-center shadow-lg" @click="openVJW">
-                <div>
-                    <span class="bg-red-600 text-[8px] font-bold px-2 py-0.5 rounded uppercase">Must Have</span>
-                    <h3 class="text-xl font-bold mt-2 serif">Visit Japan Web</h3>
-                    <p class="text-[10px] opacity-50 mt-1 serif">入境審查 & 海關申報 (截圖 QR Code)</p>
-                </div>
+                <div><span class="bg-red-600 text-[8px] font-bold px-2 py-0.5 rounded uppercase">Must Have</span><h3 class="text-xl font-bold mt-2 serif">Visit Japan Web</h3><p class="text-[10px] opacity-50 mt-1 serif">入境審查 & 海關申報 (截圖 QR Code)</p></div>
                 <i class="fas fa-qrcode text-2xl opacity-20"></i>
             </section>
-
             <section class="space-y-4 pt-2">
                 <h3 class="font-bold serif text-lg flex items-center gap-2 px-1"><i class="fas fa-shield-halved text-red-800"></i> 緊急聯絡 & 支援</h3>
-                <div class="grid grid-cols-2 gap-px bg-gray-200 rounded-xl overflow-hidden border border-gray-200">
-                    <div class="bg-white p-5 text-center"><p class="text-[10px] text-gray-400 serif">警察</p><p class="text-3xl font-eng font-bold mt-1">110</p></div>
-                    <div class="bg-white p-5 text-center"><p class="text-[10px] text-gray-400 serif">救護/火警</p><p class="text-3xl font-eng font-bold mt-1">119</p></div>
-                </div>
-                <div class="n-card p-5">
-                    <p class="font-bold text-sm serif text-gray-900">台北駐大阪經濟文化辦事處</p>
-                    <div class="space-y-2 mt-3 font-eng text-[13px] text-gray-600">
-                        <p>06-6443-8481 <span class="text-[10px] text-gray-400 serif">(上班時間)</span></p>
-                        <p class="text-red-800 font-bold">090-8794-4571 <span class="text-[10px] text-gray-400 serif">(急難救助)</span></p>
-                    </div>
-                </div>
+                <div class="grid grid-cols-2 gap-px bg-gray-200 rounded-xl overflow-hidden border border-gray-200"><div class="bg-white p-5 text-center"><p class="text-[10px] text-gray-400 serif">警察</p><p class="text-3xl font-eng font-bold mt-1">110</p></div><div class="bg-white p-5 text-center"><p class="text-[10px] text-gray-400 serif">救護/火警</p><p class="text-3xl font-eng font-bold mt-1">119</p></div></div>
+                <div class="n-card p-5"><p class="font-bold text-sm serif text-gray-900">台北駐大阪經濟文化辦事處</p><div class="space-y-2 mt-3 font-eng text-[13px] text-gray-600"><p>06-6443-8481 <span class="text-[10px] text-gray-400 serif">(上班時間)</span></p><p class="text-red-800 font-bold">090-8794-4571 <span class="text-[10px] text-gray-400 serif">(急難救助)</span></p></div></div>
             </section>
         </div>
 
@@ -146,21 +130,14 @@
             <div class="n-card p-10 bg-white shadow-xl">
                 <p class="text-xs text-gray-400 serif uppercase">總金額 (台幣)</p>
                 <h2 class="text-5xl font-eng font-bold mt-2">$ {{ totalExpenses.toLocaleString() }}</h2>
-                <p class="text-sm text-gray-400 mt-2">每人均攤: <span class="font-bold text-gray-800">$ {{ Math.round(totalExpenses/3).toLocaleString() }}</span></p>
-                <div class="flex gap-2 mt-10">
-                    <input v-model="newItem.name" type="text" placeholder="品項" class="flex-grow text-sm p-4 rounded-xl bg-gray-50 border-none outline-none">
-                    <input v-model.number="newItem.price" type="number" placeholder="$" class="w-24 text-sm p-4 rounded-xl bg-gray-50 border-none font-eng outline-none">
-                    <button @click="addExpense" class="bg-gray-950 text-white px-6 rounded-xl font-bold">＋</button>
-                </div>
+                <div class="flex gap-2 mt-10"><input v-model="newItem.name" type="text" placeholder="品項" class="flex-grow text-sm p-4 rounded-xl bg-gray-50 border-none outline-none"><input v-model.number="newItem.price" type="number" placeholder="$" class="w-24 text-sm p-4 rounded-xl bg-gray-50 border-none font-eng outline-none"><button @click="addExpense" class="bg-gray-950 text-white px-6 rounded-xl font-bold">＋</button></div>
             </div>
             <button @click="resetBudget" class="text-[10px] text-gray-300 uppercase tracking-widest mt-4">Clear All Records</button>
         </div>
     </main>
 
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t z-50 pt-3 pb-[env(safe-area-inset-bottom)] flex justify-around h-16 shadow-lg">
-        <button v-for="t in tabs" :key="t.id" @click="currentTab = t.id" class="flex flex-col items-center w-full" :class="currentTab === t.id ? 'text-gray-950' : 'text-gray-400'">
-            <i :class="t.icon + ' text-lg'"></i><span class="text-[9px] font-bold mt-1 font-eng tracking-tighter">{{ t.name }}</span>
-        </button>
+        <button v-for="t in tabs" :key="t.id" @click="currentTab = t.id" class="flex flex-col items-center w-full" :class="currentTab === t.id ? 'text-gray-950' : 'text-gray-400'"><i :class="t.icon + ' text-lg'"></i><span class="text-[9px] font-bold mt-1 font-eng tracking-tighter uppercase">{{ t.name }}</span></button>
     </nav>
 
     <div class="modal-mask" :class="{show: isModalOpen}" @click.self="closeModal">
@@ -171,32 +148,18 @@
             </div>
             <div class="p-8 overflow-y-auto space-y-8 text-sm leading-relaxed text-gray-700 bg-[#FDFDFB] flex-grow">
                 <div v-if="selectedItem.tags?.code" class="ticket-ui shadow-sm">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-500 font-eng uppercase">Reservation</span>
-                        <i class="fas fa-copy text-gray-200"></i>
-                    </div>
-                    <div class="conf-no-box">
-                        <p class="text-[10px] text-gray-400 font-eng uppercase">Confirmation No.</p>
-                        <p class="text-xl font-eng font-bold text-gray-800 tracking-widest mt-1">{{ selectedItem.tags.code }}</p>
-                    </div>
+                    <div class="flex justify-between items-center mb-3"><span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-500 font-eng uppercase">Reservation</span><i class="fas fa-copy text-gray-200"></i></div>
+                    <div class="conf-no-box"><p class="text-[10px] text-gray-400 font-eng uppercase">Confirmation No.</p><p class="text-xl font-eng font-bold text-gray-800 tracking-widest mt-1">{{ selectedItem.tags.code }}</p></div>
                 </div>
 
-                <div v-if="selectedItem.menu" class="space-y-4">
-                    <h4 class="font-bold text-gray-950 flex items-center gap-2">🗣️ 指差し會話</h4>
-                    <div v-for="m in selectedItem.menu" class="point-speak-box">
-                        <div><p class="font-bold text-sm">{{ m.zh }}</p><p class="text-[10px] text-gray-400 font-eng">{{ m.en }}</p></div>
-                        <p class="text-xl font-bold text-gray-900">{{ m.jp }}</p>
-                    </div>
-                </div>
+                <div v-if="selectedItem.menu" class="space-y-4"><h4 class="font-bold text-gray-950 flex items-center gap-2">🗣️ 指差し會話</h4><div v-for="m in selectedItem.menu" class="point-speak-box"><div><p class="font-bold text-sm">{{ m.zh }}</p><p class="text-[10px] text-gray-400 font-eng">{{ m.en }}</p></div><p class="text-xl font-bold text-gray-900">{{ m.jp }}</p></div></div>
 
                 <div class="space-y-6">
                     <h4 class="font-bold text-gray-950 border-l-4 border-gray-200 pl-3">關於此處 (ABOUT)</h4>
                     <div v-html="selectedItem.guideStory" class="leading-loose text-gray-600"></div>
                 </div>
 
-                <div class="pt-6 border-t">
-                    <a v-if="selectedItem.location" :href="getTransitLink(selectedItem.location)" target="_blank" class="w-full btn-blue-hollow serif py-4"><i class="fas fa-location-arrow"></i> 開啟 Google Maps 導航</a>
-                </div>
+                <div class="pt-6 border-t"><a v-if="selectedItem.location" :href="getTransitLink(selectedItem.location)" target="_blank" class="w-full btn-blue-hollow serif py-4"><i class="fas fa-location-arrow"></i> 開啟 Google Maps 導航</a></div>
             </div>
         </div>
     </div>
@@ -210,34 +173,32 @@ createApp({
         const tabs = [{ id: 'itinerary', name: 'SCHEDULE', icon: 'fas fa-calendar-day' }, { id: 'booking', name: 'BOOKING', icon: 'fas fa-bookmark' }, { id: 'info', name: 'ESSENTIAL', icon: 'fas fa-info-circle' }, { id: 'budget', name: 'WALLET', icon: 'fas fa-coins' }];
         const reservationList = [{id:1, type:'TRANS', title:'HARUKA 30 (KKDAY)', code:'KKD-PENDING'}, {id:2, type:'FOOD', title:'肉奉行 京都牛光', code:'BK-GYUMITSU'}, {id:3, type:'TRANS', title:'あをによし 觀光特急', code:'AONI-905-SA'}];
 
-        // 行程資料 (修正點3: 星期資訊修正 )
         const itineraryData = [
             { dayNum:'03', weekday:'THU', city:'關西機場 ➔ 京都古都', hero_img:'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=1000', items:[
-                { time:"10:25", type:"trans", title:"抵達關西機場 (KIX)", desc_ext:"開啟VJW QR Code，領取行李並通關。[cite: 4, 6]", guideStory: "<b>入境通關攻略：</b><br>歡迎抵達關西。降落後請先連上 KIX Wi-Fi 並準備好 Visit Japan Web (VJW) QR Code。領取行李（共40kg）後，依序通過入境審查與海關申報，掃描後即可快速通關。出關後右側電梯可達二樓美食街。[cite: 4, 6, 8]"},
-                { time:"11:30", type:"food", title:"機場午餐: KIX Dining", desc_ext:"推薦二樓美食街，避開排隊人潮。[cite: 10]", menu:[{zh:'章魚燒', jp:'たこ焼き', en:'Takoyaki'},{zh:'神座拉麵', jp:'神座ラーメン', en:'Kamukura Ramen'}], guideStory: "<b>KIX Dining 精選建議：</b><br>● <b>The Brasserie</b>：適合喜愛安靜用餐的環境。<br>● <b>TAKOMASA (たこ昌)</b>：必嚐的老牌章魚燒。<br>● <b>神座拉麵</b>：湯底清爽的白菜拉麵，是我們的首選建議。[cite: 12, 13, 14, 15]"},
-                { time:"12:44", type:"trans", title:"搭乘 HARUKA 30號", desc_ext:"KIX ➔ 京都車站 (12:44-14:02)。[cite: 19]", tags: { code: 'PENDING-KKDAY' }, guideStory: "<b>交通導覽：</b><br>HARUKA 是通往京都最快速尊榮的特急列車。車程約 75 分鐘，直達京都車站。請攜帶 KKday 憑證至 JR 藍色售票機或綠色窗口兌換實體票券，並對號入座休息。[cite: 21, 22]"},
-                { time:"15:30", type:"spot", title:"清水寺 / 二年坂 / 三年坂", desc_ext:"走訪清水寺周邊經典地標與名店。[cite: 23]", location:"Kiyomizu-dera", guideStory: "<b>深度景點故事：</b><br>清水寺建於公元778年，是不使用一根釘子建成的國寶建築。隨後走訪<b>二/三年坂</b>石階路，欣賞<b>五重塔(八坂之塔)</b>。最後來到求緣分的<b>八坂神社</b>。[cite: 27, 28, 29, 32]<br><br><b>精選伴手禮與午茶：</b><br>● <b>音羽茶寮</b>：優雅的喝茶處。<br>● <b>GOKAGO</b>：超紅現刷抹茶。<br>● <b>京都北山 MALEBRANCHE</b>：必買茶之菓餅乾。<br>● <b>伊藤久右衛門</b>：宇治茶老店抹茶麻糬。[cite: 34, 35, 36, 37]"},
-                { time:"18:30", type:"food", title:"晚餐: 肉奉行 京都牛光", desc_ext:"河原町排隊名店，主打牛肉蓋飯。[cite: 39]", tags: { code: 'BK-GYU-630' }, menu:[{zh:'牛肉蓋飯', jp:'ステーキ丼', en:'Steak Don'}], guideStory: "<b>牛光食記攻略：</b><br>牛肉蓋飯是店內招牌。鮮嫩的牛肉切片舖滿米飯，建議先吃原味，再拌入半熟溫泉蛋。吃到最後 1/3 時，請務必倒入特製熱高湯做成茶泡飯，口感瞬間提升。已預約 18:30，請出示訂單給櫃檯確認。[cite: 41]"}
+                { time:"10:25", type:"trans", title:"抵達關西機場 (KIX)", desc_ext:"開啟VJW QR Code，領取行李並通關。", guideStory: "<b>入境通關攻略：</b><br>歡迎抵達關西！下飛機後請先連上 KIX 機場 Wi-Fi，並準備好 Visit Japan Web (VJW) 的 QR Code。通過檢疫與入境審查後，前往 1 樓行李轉盤領取行李（共 40kg）。最後掃描海關 QR Code 即可快速出關。出關後依指示搭電扶梯前往 2 樓或 3 樓。"},
+                { time:"11:30", type:"food", title:"機場午餐: KIX Dining", desc_ext:"推薦二樓美食街，避開排隊人潮。", menu:[{zh:'章魚燒', jp:'たこ焼き', en:'Takoyaki'},{zh:'神座拉麵', jp:'神座ラーメン', en:'Kamukura Ramen'}], guideStory: "<b>【名店推薦】</b>KIX Dining 位於關西機場第一航廈二樓，這裡提供了豐富的在地美食選擇。推薦以下三家：<br>● <b>The Brasserie</b>：位於日航飯店內，氣氛悠閒，適合長輩。<br>● <b>TAKOMASA (たこ昌)</b>：老牌章魚燒，口感紮實。<br>● <b>神座拉麵</b>：清甜的白菜湯底拉麵，負擔輕。建議我們先在此吃飽，避免抵達京都車站後還要推著行李排隊。"},
+                { time:"12:44", type:"trans", title:"搭乘 HARUKA 30號", desc_ext:"KIX ➔ 京都車站 (12:44-14:02)。", tags: { code: 'PENDING-KKDAY' }, guideStory: "<b>【交通資訊】</b>我們將搭乘 HARUKA 特急直達京都車站。車程約 75 分鐘，請持 KKday 憑證至機器換票。行李架位於車廂前端，請父母放鬆休息，享受窗外的關西風景。"},
+                { time:"15:30", type:"spot", title:"清水寺 / 二年坂 / 三年坂", desc_ext:"千年古剎巡禮，走訪東山經典區域。", location:"Kiyomizu-dera", guideStory: "<b>【景點介紹】</b>清水寺是京都最古老的寺院之一。其木造舞台高達 13 公尺。下山後是充滿古風的<b>二/三年坂</b>石階路，兩側有豐富的商店。<br>● <b>音羽茶寮</b>：優雅的休憩處。<br>● <b>GOKAGO</b>：超人氣現刷抹茶。<br>● <b>京都北山 / 伊藤久右衛門</b>：抹茶伴手禮首選。"},
+                { time:"18:30", type:"food", title:"晚餐: 肉奉行 京都牛光", desc_ext:"河原町名店，牛肉蓋飯與茶泡飯。", tags: { code: 'BK-GYU-630' }, menu:[{zh:'牛肉蓋飯', jp:'ステーキ丼', en:'Steak Don'}], guideStory: "<b>【京都美食】</b>肉奉行牛光在河原町極受歡迎。招牌牛肉蓋飯切片厚實。建議先吃原味，拌入半熟蛋，吃到 1/3 時加入熱高湯。已預約，請出示代碼確認。"}
             ]},
-            // 以下日期亦修正為正確星期 
-            { dayNum:'04', weekday:'FRI', city:'嵐山竹林 ➔ 金閣閃耀', hero_img:'https://images.unsplash.com/photo-1493780490677-0ad5770d7882?auto=format&fit=crop&q=80&w=1000', items:[{time:"09:30", type:"spot", title:"嵐山小火車", desc_ext:"穿越保津川溪谷。", guideStory: "嵐山是京都西郊的風景名勝。嵯峨野小火車穿梭於絕壁與保津川之間，四季皆有不同美景。隨後步行穿越竹林小徑，洗滌心靈。"}]},
-            { dayNum:'05', weekday:'SAT', city:'奈良神鹿 ➔ 豪華特急', hero_img:'https://images.unsplash.com/photo-1542931237-323a1959a044?auto=format&fit=crop&q=80&w=1000', items:[{time:"12:30", type:"spot", title:"奈良公園餵鹿", desc_ext:"與小鹿親密接觸。", guideStory: "奈良的鹿被視為神靈使者。在奈良公園餵餅後，前往參觀壯觀的東大寺大佛。傍晚搭乘豪華特急 あをによし 前往大阪。"}]},
-            { dayNum:'06', weekday:'SUN', city:'大阪名城 ➔ 梅田夜色', hero_img:'https://images.unsplash.com/photo-1590559063891-93364670992c?auto=format&fit=crop&q=80&w=1000', items:[{time:"18:00", type:"spot", title:"梅田藍天大廈", desc_ext:"360度露天展望夜景。", guideStory: "大阪城天守閣見證了戰國歷史。傍晚前往梅田藍天大廈，站在 173 公尺的高空，將大阪的百萬都市霓虹盡收眼底。"}]},
-            { dayNum:'07', weekday:'MON', city:'黑門海鮮 ➔ 勝尾寺', hero_img:'https://images.unsplash.com/photo-1590250766395-56839be9b244?auto=format&fit=crop&q=80&w=1000', items:[{time:"09:00", type:"food", title:"黑門市場海鮮", desc_ext:"在地大阪廚房早餐。", guideStory: "黑門市場是大阪最有生活感的魚市場。清晨散步過來享用現剖生蠔。午後前往勝尾寺祈求勝運，看滿山遍野的可愛達摩。"}]},
-            { dayNum:'08', weekday:'TUE', city:'送機包車 ➔ 溫暖返台', hero_img:'https://images.unsplash.com/photo-1558204692-5f4002636222?auto=format&fit=crop&q=80&w=1000', items:[{time:"08:15", type:"trans", title:"INNN 送機專車", desc_ext:"飯店直達機場一航廈。", guideStory: "旅程最後一天，預約包車直達機場。免去提領大件伴手禮擠電車的負擔，優雅平安地踏上返台航程。"}]}
+            { dayNum:'04', weekday:'FRI', city:'嵐山竹林 ➔ 金閣閃耀', hero_img:'https://images.unsplash.com/photo-1493780490677-0ad5770d7882?auto=format&fit=crop&q=80&w=1000', items:[{time:"09:30", type:"spot", title:"嵐山小火車", desc_ext:"穿梭於保津川溪谷。", guideStory: "<b>嵐山美景：</b>搭乘嵯峨野小火車穿過峽谷，秋意漸濃時特別美。隨後步行穿越竹林小徑，洗滌心靈。"}]},
+            { dayNum:'05', weekday:'SAT', city:'奈良神鹿 ➔ 豪華特急', hero_img:'https://images.unsplash.com/photo-1542931237-323a1959a044?auto=format&fit=crop&q=80&w=1000', items:[{time:"12:30", type:"spot", title:"奈良公園餵鹿", desc_ext:"與小鹿近距離互動。", guideStory: "<b>奈良體驗：</b>東大寺大佛氣勢萬千。餵鹿餅時請記得張開雙手表示沒了，鹿就不會纏著妳。"}]},
+            { dayNum:'06', weekday:'SUN', city:'大阪名城 ➔ 梅田夜色', hero_img:'https://images.unsplash.com/photo-1590559063891-93364670992c?auto=format&fit=crop&q=80&w=1000', items:[{time:"18:00", type:"spot", title:"梅田藍天大廈", desc_ext:"360度露天高空夜景。", guideStory: "<b>大阪地標：</b>大阪城見證了豐臣家的輝煌。傍晚前往梅田藍天大廈，看著百萬霓虹在腳下閃爍。"}]},
+            { dayNum:'07', weekday:'MON', city:'黑門海鮮 ➔ 勝尾寺', hero_img:'https://images.unsplash.com/photo-1590250766395-56839be9b244?auto=format&fit=crop&q=80&w=1000', items:[{time:"09:00", type:"food", title:"黑門市場海鮮", desc_ext:"在地人的廚房，海鮮早餐。", guideStory: "<b>在地文化：</b>在黑門市場享受現剖生蠔。下午前往勝尾寺求勝運，看滿山可愛的達摩。"}]},
+            { dayNum:'08', weekday:'TUE', city:'送機包車 ➔ 返家', hero_img:'https://images.unsplash.com/photo-1558204692-5f4002636222?auto=format&fit=crop&q=80&w=1000', items:[{time:"08:15", type:"trans", title:"INNN 送機包車", desc_ext:"專車直達機場第一航廈。", guideStory: "<b>優雅收尾：</b>最後一天預約包車送機，不用辛苦搬運行李擠電車。在免稅店補齊伴手禮，平安返台。"}]}
         ];
 
         const getTypeIcon = (t) => ({ trans:'fas fa-train', food:'fas fa-utensils', spot:'fas fa-camera' })[t];
         const getTransitLink = (d) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(d)}&travelmode=transit`;
-        const addExpense = () => { if(newItem.value.name && newItem.value.price){ expenses.value.unshift({...newItem.value}); localStorage.setItem('e_exp_v12', JSON.stringify(expenses.value)); newItem.value = {name:'', price:''}; } };
+        const addExpense = () => { if(newItem.value.name && newItem.value.price){ expenses.value.unshift({...newItem.value}); localStorage.setItem('e_exp_v13', JSON.stringify(expenses.value)); newItem.value = {name:'', price:''}; } };
         const totalExpenses = computed(() => expenses.value.reduce((s, i) => s + i.price, 0));
-        const resetBudget = () => { if(confirm('要歸零所有記帳嗎？')){ expenses.value = []; localStorage.removeItem('e_exp_v12'); } };
+        const resetBudget = () => { if(confirm('要歸零所有記帳嗎？')){ expenses.value = []; localStorage.removeItem('e_exp_v13'); } };
         const openGuide = (i) => { selectedItem.value = i; isModalOpen.value = true; document.body.style.overflow='hidden'; };
         const closeModal = () => { isModalOpen.value = false; document.body.style.overflow='auto'; };
         const openVJW = () => window.open('https://www.vjw.digital.go.jp/main/#/vjwplo001', '_blank');
-        const handleImgError = (e) => { e.target.src = 'https://images.unsplash.com/photo-1528164344705-4754268799af?q=80&w=1000'; };
+        const handleImgError = (e) => { e.target.src = 'https://images.unsplash.com/photo-1528164344705-4754268799af?auto=format&fit=crop&q=80&w=1000'; };
 
-        onMounted(() => { const s = localStorage.getItem('e_exp_v12'); if(s) expenses.value = JSON.parse(s); });
+        onMounted(() => { const s = localStorage.getItem('e_exp_v13'); if(s) expenses.value = JSON.parse(s); });
         return { activeDay, currentTab, tabs, itineraryData, reservationList, getTypeIcon, getTransitLink, newItem, expenses, addExpense, totalExpenses, resetBudget, isModalOpen, selectedItem, openGuide, closeModal, openVJW, handleImgError };
     }
 }).mount('#app');
