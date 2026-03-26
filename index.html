@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>2026京阪奈</title>
+    <title>2026京阪奈 - V10.0</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -12,21 +12,14 @@
     
     <style>
         :root {
-            --mo-bg: #F5F4EF; /* 暖調莫蘭迪底色 */
-            --card-bg: #FFFFFF;
-            --text-main: #53565A;
-            --mo-blue: #7D8E9A; 
-            --mo-green: #97A697;
-            --mo-red: #A98B84;
+            --mo-bg: #F5F4EF; --card-bg: #FFFFFF; --text-main: #37352F;
+            --mo-blue: #7D8E9A; --mo-green: #97A697; --mo-red: #A98B84;
             --border-light: #E0DDD5;
-            --vjw-black: #1A1A1A;
         }
 
         body { font-family: 'Noto Serif TC', serif; background-color: var(--mo-bg); color: var(--text-main); padding-top: env(safe-area-inset-top); }
         .font-eng { font-family: 'Courier Prime', monospace; font-weight: 700; }
-        .serif { font-family: 'Noto Serif TC', serif; }
 
-        /* 卡片設計 */
         .n-card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid #F0EFEA; overflow: hidden; }
         
         /* 頂部選取器 */
@@ -34,33 +27,33 @@
         .day-item { text-align: center; min-width: 45px; opacity: 0.3; transition: 0.3s; }
         .day-item.active { opacity: 1; color: #333; border-bottom: 2px solid #A98B84; }
 
-        /* 圓點時間標記 (修改點1) */
-        .dot-indicator { width: 8px; height: 8px; background-color: var(--mo-red); border-radius: 50%; display: inline-block; margin-left: 4px; }
-        
-        /* VJW & 地圖按鈕樣式 (修改點4) */
-        .must-have-tag { background-color: #D64F52; color: white; font-size: 8px; font-weight: bold; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
-        .btn-blue-hollow { border: 1.5px solid #E6EAF2; border-radius: 8px; color: #235A94; font-weight: 600; padding: 12px; display: flex; items-center; justify-content: center; gap: 8px; font-size: 14px; }
+        /* 類型顏色區分 (修改點1 & 2) */
+        .card-type-spot { border-left: 5px solid var(--mo-green); }
+        .card-type-transport { border-left: 5px solid var(--mo-blue); }
+        .card-type-food { border-left: 5px solid var(--mo-red); }
 
-        /* 緊急聯絡表格 */
-        .emergency-grid { display: grid; grid-cols-2; gap: 1px; background-color: #F0EFEA; border-radius: 12px; overflow: hidden; border: 1px solid #F0EFEA; }
-        .emergency-item { background: white; padding: 16px; text-align: center; }
+        .dot-indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-left: 6px; }
+        .dot-spot { background-color: var(--mo-green); }
+        .dot-transport { background-color: var(--mo-blue); }
+        .dot-food { background-color: var(--mo-red); }
 
         /* Modal */
         .modal-mask { position: fixed; z-index: 100; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; backdrop-filter: blur(4px); transition: all 0.3s ease; display: flex; justify-content: center; align-items: flex-end; }
         .modal-mask.show { opacity: 1; pointer-events: auto; }
-        .modal-wrapper { width: 100%; max-width: 500px; height: 90vh; background-color: #FDFDFB; border-radius: 24px 24px 0 0; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; display: flex; flex-direction: column; }
+        .modal-wrapper { width: 100%; max-width: 500px; height: 92vh; background-color: #FDFDFB; border-radius: 24px 24px 0 0; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; display: flex; flex-direction: column; }
         .modal-mask.show .modal-wrapper { transform: translateY(0); }
+
+        /* 票券 & 訂位 */
+        .ticket-ui { background: #fdfcf0; border: 2px dashed #dcd8c0; border-radius: 12px; padding: 20px; }
+        .booking-ui { background: #fdf4f4; border: 1px solid #f2dede; border-radius: 12px; padding: 20px; }
     </style>
 </head>
 <body class="pb-32">
 <div id="app">
-    <header class="sticky top-0 z-40 bg-white pt-[env(safe-area-inset-top)]">
+    <header class="sticky top-0 z-40 bg-white shadow-sm pt-[env(safe-area-inset-top)]">
         <div class="px-6 py-4 text-center">
-            <p class="text-[9px] tracking-[0.4em] text-gray-400 font-mono-eng">FAMILY TRIP</p>
-            <div class="flex items-center justify-center gap-2 mt-0.5">
-                <h1 class="text-xl font-bold serif">2026京阪奈</h1>
-                <span class="text-[10px] border border-gray-300 rounded-full px-2 py-0.5 text-gray-400 font-eng">2026</span>
-            </div>
+            <p class="text-[9px] tracking-[0.4em] text-gray-400 font-mono-eng uppercase">2026 Kansai Trip</p>
+            <h1 class="text-xl font-bold serif mt-0.5">2026京阪奈</h1>
         </div>
         <div v-if="currentTab === 'itinerary'" class="day-scroller no-scrollbar">
             <div v-for="(d, i) in itineraryData" :key="i" @click="activeDay = i+1" class="day-item" :class="{active: activeDay === i+1}">
@@ -72,145 +65,86 @@
 
     <main class="px-5 pt-6 space-y-7">
         <div v-if="currentTab === 'itinerary'" class="space-y-6">
-            <div class="n-card border-none shadow-sm">
-                <img :src="itineraryData[activeDay-1].hero_img" class="w-full h-36 object-cover">
+            <div class="n-card border-none shadow-md">
+                <img :src="itineraryData[activeDay-1].hero_img" class="w-full h-36 object-cover" alt="Banner">
                 <div class="p-5 flex justify-between items-end">
                     <div>
                         <h3 class="font-bold serif text-2xl text-gray-900">{{ itineraryData[activeDay-1].city }}</h3>
-                        <p class="text-[10px] text-gray-400 font-mono-eng mt-1 tracking-widest uppercase">Weather: 26°C / Sunny</p>
+                        <p class="text-[10px] text-gray-400 font-mono-eng mt-1 tracking-widest uppercase">{{ itineraryData[activeDay-1].date_eng }}</p>
                     </div>
-                    <div class="text-[10px] bg-gray-50 px-3 py-1 rounded-full text-gray-400 serif">住宿：{{ activeDay <= 2 ? 'Kyoto' : 'Osaka' }}</div>
+                    <div class="text-[10px] bg-gray-50 px-3 py-1 rounded-full text-gray-400 serif">當晚：{{ activeDay <= 2 ? '京都' : '大阪' }}</div>
                 </div>
             </div>
 
             <div v-for="(item, idx) in itineraryData[activeDay-1].items" :key="idx" class="relative pl-14">
-                <div class="absolute left-0 top-1 text-[11px] font-eng text-gray-950 font-bold bg-transparent">
-                    {{ item.time }} <span class="dot-indicator"></span>
+                <div class="absolute left-0 top-1 text-[11px] font-eng text-gray-950 font-bold">
+                    {{ item.time }} <span class="dot-indicator" :class="'dot-' + item.type"></span>
                 </div>
-                <div class="n-card p-5 mb-4" @click="openGuide(item)">
+                <div class="n-card p-5 mb-4" :class="'card-type-' + item.type" @click="openGuide(item)">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-bold text-lg serif text-gray-900 leading-tight">{{ item.title }}</h3>
-                        <span v-if="item.tags?.code" class="text-[8px] border border-red-800 text-red-800 font-bold px-1.5 py-0.5 rounded rotate-[-2deg]">預約済</span>
+                        <h3 class="font-bold text-lg serif text-gray-900">{{ item.title }}</h3>
+                        <i :class="getTypeIcon(item.type) + ' text-gray-200 text-sm'"></i>
                     </div>
-                    <p class="text-[9px] text-gray-400 mb-2 font-eng tracking-[0.2em] uppercase"><i :class="getTypeIcon(item.type) + ' mr-1'"></i> {{ item.type }}</p>
                     <p class="text-sm text-gray-500 line-clamp-2 leading-relaxed">{{ item.desc_ext }}</p>
                 </div>
             </div>
         </div>
 
         <div v-if="currentTab === 'info'" class="space-y-6">
-            <p class="text-xs text-gray-400 font-serif px-1">全覽地圖與重要資訊</p>
-            
             <section class="n-card p-5">
                 <div class="flex items-center gap-2 mb-4">
                     <i class="fa-regular fa-map text-gray-400 text-sm"></i>
-                    <h3 class="font-bold serif text-sm">京阪奈地圖</h3>
-                    <span class="ml-auto text-[9px] bg-gray-100 text-gray-400 px-2 py-0.5 rounded-full">12 個停留點</span>
+                    <h3 class="font-bold serif text-sm">全行程地圖</h3>
                 </div>
-                <div class="bg-gray-100 rounded-lg aspect-[16/10] mb-4 overflow-hidden border border-gray-100">
-                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=60&w=800" class="w-full h-full object-cover opacity-80">
+                <div class="bg-gray-100 rounded-lg aspect-video mb-4 flex items-center justify-center border border-gray-100">
+                    <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-60">
                 </div>
-                <a href="https://www.google.com/maps/dir/?api=1&destination=$" target="_blank" class="btn-blue-hollow serif">
-                    <i class="fa-regular fa-share-from-square"></i> 開啟 Google Maps 導航
+                <a href="https://www.google.com/maps/dir/?api=1&destination=$" target="_blank" class="w-full border-1.5 border-[#E6EAF2] rounded-lg text-blue-800 font-bold p-3 text-center text-sm flex items-center justify-center gap-2 border">
+                    <i class="fa-solid fa-location-dot"></i> 開啟 Google Maps 導覽
                 </a>
             </section>
 
-            <section class="bg-[#1A1A1A] rounded-xl p-6 text-white flex justify-between items-center shadow-lg" @click="openVJW">
+            <section class="bg-[#1A1A1A] rounded-xl p-6 text-white flex justify-between items-center" @click="openVJW">
                 <div>
-                    <span class="must-have-tag">Must Have</span>
+                    <span class="bg-red-600 text-[8px] font-bold px-2 py-0.5 rounded uppercase">Must Have</span>
                     <h3 class="text-xl font-bold mt-2 serif">Visit Japan Web</h3>
                     <p class="text-[10px] opacity-50 mt-1 serif">入境審查 & 海關申報 (請截圖 QR Code)</p>
                 </div>
-                <div class="w-11 h-11 bg-white/10 rounded-xl flex items-center justify-center border border-white/20">
-                    <i class="fas fa-qrcode text-xl text-white"></i>
+                <i class="fas fa-qrcode text-2xl opacity-30"></i>
+            </section>
+
+            <section class="space-y-4 pt-2">
+                <h3 class="font-bold serif text-lg px-1 flex items-center gap-2">🚨 緊急聯絡 & 支援</h3>
+                <div class="grid grid-cols-2 gap-px bg-gray-200 rounded-xl overflow-hidden border border-gray-200">
+                    <div class="bg-white p-5 text-center"><p class="text-[10px] text-gray-400 serif">警察</p><p class="text-3xl font-eng font-bold text-red-900 mt-1">110</p></div>
+                    <div class="bg-white p-5 text-center"><p class="text-[10px] text-gray-400 serif">救護/火警</p><p class="text-3xl font-eng font-bold text-red-900 mt-1">119</p></div>
+                </div>
+                <div class="n-card p-5 flex justify-between items-center">
+                    <div><p class="font-bold text-sm serif">訪日外國人熱線 (JNTO)</p><p class="font-eng text-lg font-bold mt-1">050-3816-2787</p></div>
+                    <a href="tel:05038162787" class="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center text-white"><i class="fas fa-phone-alt text-xs"></i></a>
                 </div>
             </section>
 
-            <section class="space-y-4 pt-4">
-                <h3 class="font-bold serif text-lg px-1 flex items-center gap-2">
-                    <i class="fa-solid fa-shield-halved text-[#A3867E]"></i> 緊急聯絡 & 支援
-                </h3>
-                
-                <div class="emergency-grid shadow-sm">
-                    <div class="emergency-item">
-                        <p class="text-[10px] text-gray-400 serif">警察 (POLICE)</p>
-                        <p class="text-3xl font-eng font-bold text-red-900 mt-1">110</p>
-                    </div>
-                    <div class="emergency-item">
-                        <p class="text-[10px] text-gray-400 serif">救護/火警</p>
-                        <p class="text-3xl font-eng font-bold text-red-900 mt-1">119</p>
-                    </div>
-                </div>
-
-                <div class="n-card p-5 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-sm serif text-gray-900">訪日外國人 醫療 & 急難熱線</p>
-                            <p class="text-[10px] text-gray-400 serif mt-0.5">JAPAN VISITOR HOTLINE (JNTO)</p>
-                            <p class="font-eng text-lg font-bold mt-1 text-gray-950">050-3816-2787</p>
-                        </div>
-                        <a href="tel:05038162787" class="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center">
-                            <i class="fas fa-phone-alt text-white text-xs"></i>
-                        </a>
-                    </div>
-                    <p class="text-[9px] text-gray-400 border-t border-gray-50 pt-3 serif">* 24小時對應 (英/中/韓)。生病受傷或發生事故時可撥打。</p>
-                </div>
-
-                <div class="n-card p-5">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="text-[9px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-serif">外交部</span>
-                        <p class="font-bold text-sm serif text-gray-950">台北駐大阪經濟文化辦事處</p>
-                    </div>
-                    <div class="space-y-1 font-eng text-[13px] text-gray-600">
-                        <p>06-6443-8481 <span class="text-[10px] text-gray-400 serif">(上班時間)</span></p>
-                        <p class="text-red-900 font-bold">090-8794-4571 <span class="text-[10px] text-gray-400 serif">(急難救助)</span></p>
-                    </div>
-                </div>
-            </section>
-            
             <section class="n-card p-5 space-y-4">
-                <h3 class="font-bold serif border-b pb-3 text-sm tracking-widest uppercase text-gray-400">Flight Details</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <p class="font-eng text-[10px] text-gray-400 uppercase">Depart 9/3</p>
-                        <p class="font-bold text-gray-950">IT210</p>
-                        <p class="font-eng text-[11px] text-gray-500">06:40 TPE > 10:25 KIX</p>
-                    </div>
-                    <div>
-                        <p class="font-eng text-[10px] text-gray-400 uppercase">Return 9/8</p>
-                        <p class="font-bold text-gray-950">IT211</p>
-                        <p class="font-eng text-[11px] text-gray-500">11:45 KIX > 13:45 TPE</p>
-                    </div>
+                <h3 class="font-bold serif border-b pb-3 text-gray-400 text-xs uppercase tracking-widest">Flight Details</h3>
+                <div class="grid grid-cols-2 gap-4 text-xs">
+                    <div><p class="text-gray-400 font-mono-eng">9/3 DEP (IT210)</p><p class="font-bold">06:40 > 10:25</p><p class="text-rose-400">40kg (20*2)</p></div>
+                    <div><p class="text-gray-400 font-mono-eng">9/8 RET (IT211)</p><p class="font-bold">11:45 > 13:45</p><p class="text-rose-400">45kg (20+25)</p></div>
                 </div>
             </section>
         </div>
 
         <div v-if="currentTab === 'budget'" class="space-y-6">
-            <div class="px-1 flex justify-between items-end">
-                <h2 class="text-2xl font-bold serif">旅行帳本</h2>
-                <p class="text-[10px] text-gray-400 serif font-mono-eng tracking-widest">CLOUD SYNCING...</p>
-            </div>
-            <div class="n-card p-8 bg-white border-none shadow-xl text-center">
+            <div class="n-card p-8 bg-white text-center shadow-xl">
                 <p class="text-[10px] text-gray-400 tracking-widest uppercase serif">總金額 (台幣)</p>
                 <h2 class="text-5xl font-eng font-bold mt-2">$ {{ totalExpenses.toLocaleString() }}</h2>
                 <p class="text-xs text-gray-400 mt-2 serif">每人均攤: <span class="font-bold text-gray-800">$ {{ Math.round(totalExpenses/3).toLocaleString() }}</span></p>
-                <div class="flex gap-2 mt-8">
-                    <input v-model="newItem.name" type="text" placeholder="品項" class="flex-grow text-sm p-4 rounded-xl bg-gray-50 border-none outline-none">
-                    <input v-model.number="newItem.price" type="number" placeholder="$" class="w-24 text-sm p-4 rounded-xl bg-gray-50 border-none outline-none font-eng">
-                    <button @click="addExpense" class="bg-gray-950 text-white px-5 rounded-xl text-sm font-bold">＋</button>
-                </div>
-            </div>
-            <div v-for="(exp, i) in expenses" :key="i" class="n-card p-4 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] text-slate-400 font-bold font-eng">E</div>
-                    <div><p class="text-sm font-bold serif">{{ exp.name }}</p><span class="text-[8px] bg-slate-50 text-slate-400 px-2 rounded font-eng">PAID</span></div>
-                </div>
-                <p class="font-bold font-eng text-gray-800">$ {{ exp.price.toLocaleString() }}</p>
+                <div class="flex gap-2 mt-8"><input v-model="newItem.name" type="text" placeholder="品項" class="flex-grow text-sm p-4 rounded-xl bg-gray-50 border-none outline-none"><input v-model.number="newItem.price" type="number" placeholder="$" class="w-24 text-sm p-4 rounded-xl bg-gray-50 border-none outline-none font-eng"><button @click="addExpense" class="bg-gray-950 text-white px-5 rounded-xl text-sm font-bold">＋</button></div>
             </div>
         </div>
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 z-50 pt-3 pb-[env(safe-area-inset-bottom)] flex justify-around h-16 shadow-lg">
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t z-50 pt-3 pb-[env(safe-area-inset-bottom)] flex justify-around h-16 shadow-lg">
         <button v-for="t in tabs" :key="t.id" @click="currentTab = t.id" class="flex flex-col items-center w-full" :class="currentTab === t.id ? 'text-gray-950' : 'text-gray-300'">
             <i :class="t.icon + ' text-lg'"></i>
             <span class="text-[9px] font-bold mt-1.5 font-eng tracking-tighter uppercase">{{ t.name }}</span>
@@ -220,13 +154,28 @@
     <div class="modal-mask" :class="{show: isModalOpen}" @click.self="closeModal">
         <div class="modal-wrapper serif">
             <div class="p-6 border-b flex justify-between items-start">
-                <div><p class="text-[10px] font-mono-eng text-gray-300">{{ selectedItem.time }}</p><h2 class="text-2xl font-bold serif mt-1">{{ selectedItem.title }}</h2></div>
+                <div><p class="text-[10px] font-mono-eng text-gray-400 uppercase tracking-widest">{{ selectedItem.time }}</p><h2 class="text-2xl font-bold serif mt-1">{{ selectedItem.title }}</h2></div>
                 <button @click="closeModal" class="text-gray-300 text-xl"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-8 overflow-y-auto space-y-8 text-sm leading-relaxed text-gray-700 flex-grow">
-                <div v-html="selectedItem.guideStory" class="space-y-4"></div>
+                <div v-if="selectedItem.title && selectedItem.title.includes('HARUKA')" class="ticket-ui space-y-4">
+                    <p class="text-center text-[10px] font-bold text-blue-500 border-b pb-2">JR LIMITED EXPRESS TICKET</p>
+                    <div class="flex justify-between items-center py-4"><div class="text-center font-eng">KIX<br><span class="text-[9px] text-gray-400">12:44</span></div><div class="flex-grow text-center px-4"><p class="text-[8px] text-blue-300 uppercase">HARUKA 30</p><div class="h-[1px] bg-blue-100 mt-1"></div></div><div class="text-center font-eng">KYOTO<br><span class="text-[9px] text-gray-400">14:02</span></div></div>
+                    <div class="text-center text-[9px] text-blue-400 font-eng uppercase border-t pt-2">Pending KKDAY Order No.</div>
+                </div>
+
+                <div v-if="selectedItem.title && selectedItem.title.includes('牛光')" class="booking-ui space-y-3">
+                    <p class="text-center text-xs font-bold text-red-800 uppercase tracking-widest">Reservation Detail</p>
+                    <div class="grid grid-cols-2 gap-4 pt-2"><div><p class="text-[10px] text-red-300">TIME</p><p class="font-bold">18:30</p></div><div><p class="text-[10px] text-red-300">NAME</p><p class="font-bold">Ellie / 3P</p></div></div>
+                    <p class="text-center text-[10px] text-red-300 border-t pt-2 mt-2">CONFIRMATION NO: TBD</p>
+                </div>
+
+                <div v-html="selectedItem.guide_story" class="space-y-4"></div>
+                
+                <div v-if="selectedItem.menu" class="space-y-4"><h4 class="font-bold text-gray-950 flex items-center gap-2">🍜 指差し會話</h4><div v-for="m in selectedItem.menu" class="border p-3 rounded-lg flex justify-between items-center"><p class="font-bold">{{m.zh}}</p><p class="text-xl font-bold">{{m.jp}}</p></div></div>
+
                 <div class="pt-6 border-t space-y-4">
-                    <a v-if="selectedItem.location" :href="getTransitLink(selectedItem.location)" target="_blank" class="w-full btn-blue-hollow serif"><i class="fas fa-location-arrow"></i> Google Map 導航</a>
+                    <a v-if="selectedItem.location" :href="getTransitLink(selectedItem.location)" target="_blank" class="w-full border-1.5 border-gray-100 rounded-lg text-sm p-4 text-center font-bold flex items-center justify-center gap-2 border bg-gray-50"><i class="fas fa-location-arrow"></i> Google Map 導航</a>
                 </div>
             </div>
         </div>
@@ -240,31 +189,32 @@ createApp({
         const activeDay = ref(1); const currentTab = ref('itinerary'); const newItem = ref({ name: '', price: '' }); const expenses = ref([]); const isModalOpen = ref(false); const selectedItem = ref({});
         const tabs = [{ id: 'itinerary', name: 'Schedule', icon: 'fas fa-calendar-day' }, { id: 'info', name: 'Essential', icon: 'fas fa-info-circle' }, { id: 'budget', name: 'Wallet', icon: 'fas fa-coins' }];
 
+        // 完整行程資料 (融合 V5 與 D1.pdf)
         const itineraryData = [
             { dayNum:'03', weekday:'WED', city:'關西機場 ➔ 京都', hero_img:'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=1000', items:[
-                { time:"10:25", type:"FLIGHT", title:"抵達關西機場 (KIX)", desc_ext:"開啟VJW QR Code，領取行李並通關。", guideStory:"<b>VJW 通關攻略</b><br>降落前請準備好 VJW QR Code。領完行李後依指示掃描，即可快速出關。" },
-                { time:"11:30", type:"FOOD", title:"機場午餐: KIX Dining", desc_ext:"推薦二樓美食街，避開排隊人潮。", guideStory:"<b>KIX Dining 推薦店家：</b><br>● <b>TAKOMASA (たこ昌)</b>：必嚐大阪章魚燒。<br>● <b>神座拉麵</b>：白菜湯底首選。" },
-                { time:"12:44", type:"TRANS", title:"搭乘 HARUKA 30號", desc_ext:"KIX ➔ 京都車站 (12:44-14:02)。", location:"Kansai Airport Station", guideStory:"<b>HARUKA 30號</b><br>直達京都最快只需75分鐘。" },
-                { time:"15:30", type:"SPOT", title:"清水寺 / 二年坂 / 三年坂", desc_ext:"走訪清水寺周邊經典地標。", location:"Kiyomizu-dera", guideStory:"<b>清水寺攻略</b><br>世界遺產，本堂大舞台與音羽之瀧是重點。"}
+                { time:"10:25", type:"transport", title:"抵達關西機場 (KIX)", desc_ext:"開啟VJW QR Code，領取行李並通關。[cite: 3-6]", guide_story:"<b>VJW 通關攻略</b><br>降落前請準備好 VJW QR Code。領完行李後依指示掃描，即可快速出關。[cite: 3-6]"},
+                { time:"11:30", type:"food", title:"機場午餐: KIX Dining", desc_ext:"推薦二樓美食街，避開排隊人潮。[cite: 9-10]", menu:[{zh:'章魚燒', jp:'たこ焼き'},{zh:'神座拉麵', jp:'神座ラーメン'}], guide_story:"<b>KIX Dining 推薦店家</b><br>● <b>The Brasserie</b><br>● <b>TAKOMASA (たこ昌)</b><br>● <b>DOTONBORI 神座</b>[cite: 13-15]"},
+                { time:"12:44", type:"transport", title:"搭乘 HARUKA 30號 特急", desc_ext:"KIX ➔ 京都車站 (12:44-14:02)。[cite: 19-20]", guide_story:"<b>HARUKA 特急攻略</b><br>直達京都只需75分鐘。待 KKday 訂票完成後將 QR Code 存於此處。[cite: 21-22]"},
+                { time:"15:30", type:"spot", title:"清水寺 / 二年坂 / 三年坂", desc_ext:"走訪清水寺周邊經典地標與商店。[cite: 23-24]", location:"Kiyomizu-dera", guide_story:"<b>清水寺周邊全覽</b><br>● <b>清水寺</b>：世界遺產大舞台。<br>● <b>二/三年坂</b>：古色古香街道。<br>● <b>五重塔(八坂之塔)</b>：必拍地標。<br><br><b>精選店家：</b><br>● <b>音羽茶寮</b><br>● <b>GOKAGO</b><br>● <b>京都北山 / 伊藤久右衛門</b>[cite: 27-37]"},
+                { time:"18:30", type:"food", title:"晚餐: 肉奉行 京都牛光", desc_ext:"主打牛肉蓋飯與茶泡飯。[cite: 39-40]", location:"肉奉行 京都牛光 河原町店", guide_story:"<b>牛光食記攻略</b><br>牛肉蓋飯是主打，吃法是先原味再加高湯。[cite: 41]"}
             ]},
-            { dayNum:'04', weekday:'THU', city:'嵐山 ➔ 金閣', hero_img:'https://images.unsplash.com/photo-1493780490677-0ad5770d7882?auto=format&fit=crop&q=80&w=1000', items:[{time:"09:30", type:"SPOT", title:"嵐山小火車", desc_ext:"穿越保津川溪谷。", location:"Sagano Scenic Railway"}]},
-            { dayNum:'05', weekday:'FRI', city:'京都 ➔ 奈良 ➔ 大阪', hero_img:'https://images.unsplash.com/photo-1542931237-323a1959a044?auto=format&fit=crop&q=80&w=1000', items:[{time:"12:30", type:"SPOT", title:"奈良公園餵鹿", desc_ext:"與小鹿互動。", location:"Nara Park"}]},
-            { dayNum:'06', weekday:'SAT', city:'大阪名城 ➔ 梅田夜景', hero_img:'https://images.unsplash.com/photo-1590559063891-93364670992c?auto=format&fit=crop&q=80&w=1000', items:[{time:"18:00", type:"SPOT", title:"梅田藍天大廈", desc_ext:"空中展望台。", location:"Umeda Sky Building"}]},
-            { dayNum:'07', weekday:'SUN', city:'黑門市場 ➔ 勝尾寺', hero_img:'https://images.unsplash.com/photo-1590250766395-56839be9b244?auto=format&fit=crop&q=80&w=1000', items:[{time:"13:00", type:"SPOT", title:"勝尾寺", desc_ext:"求勝運達摩寺。", location:"Katsuoji Temple"}]},
-            { dayNum:'08', weekday:'MON', city:'優雅返台', hero_img:'https://images.unsplash.com/photo-1558204692-5f4002636222?auto=format&fit=crop&q=80&w=1000', items:[{time:"08:15", type:"TRANS", title:"INNN 送機", desc_ext:"飯店門口直達機場。"}]}
+            { dayNum:'04', weekday:'THU', city:'嵐山 ➔ 金閣', hero_img:'https://images.unsplash.com/photo-1493780490677-0ad5770d7882?auto=format&fit=crop&q=80&w=1000', items:[{time:"09:30", type:"spot", title:"嵐山小火車", desc_ext:"保津川溪谷美景穿越。", guide_story:"<b>嵐山深度導覽</b><br>竹林小徑與渡月橋是散步首選。"}]},
+            { dayNum:'05', weekday:'FRI', city:'京都 ➔ 奈良 ➔ 大阪', hero_img:'https://images.unsplash.com/photo-1542931237-323a1959a044?auto=format&fit=crop&q=80&w=1000', items:[{time:"12:30", type:"spot", title:"奈良公園餵鹿", desc_ext:"與小鹿親密接觸。", guide_story:"<b>奈良攻略</b><br>東大寺大佛氣勢磅礴，餵鹿請小心。"}]},
+            { dayNum:'06', weekday:'SAT', city:'大阪名城 ➔ 梅田', hero_img:'https://images.unsplash.com/photo-1590559063891-93364670992c?auto=format&fit=crop&q=80&w=1000', items:[{time:"18:00", type:"spot", title:"梅田藍天大廈", desc_ext:"360度露天夜景展望。", guide_story:"<b>梅田夜色</b><br>大阪最美都市天際線就在這裡。"}]},
+            { dayNum:'07', weekday:'SUN', city:'黑門市場 ➔ 勝尾寺', hero_img:'https://images.unsplash.com/photo-1590250766395-56839be9b244?auto=format&fit=crop&q=80&w=1000', items:[{time:"09:00", type:"food", title:"黑門市場海鮮", desc_ext:"大阪人的廚房早餐。"}]},
+            { dayNum:'08', weekday:'MON', city:'優雅返台', hero_img:'https://images.unsplash.com/photo-1558204692-5f4002636222?auto=format&fit=crop&q=80&w=1000', items:[{time:"08:15", type:"transport", title:"INNN 送機", desc_ext:"飯店門口直達機場。"}]}
         ];
 
-        const getTypeIcon = (t) => ({ FLIGHT:'fas fa-plane', FOOD:'fas fa-utensils', TRANS:'fas fa-train', SPOT:'fas fa-camera' })[t];
-        const getTypeColor = (t) => ({ FLIGHT:'bg-[#7D8E9A]', FOOD:'bg-[#A98B84]', TRANS:'bg-[#97A697]', SPOT:'bg-[#BDB76B]' })[t];
+        const getTypeIcon = (t) => ({ transport:'fas fa-train', food:'fas fa-utensils', spot:'fas fa-camera' })[t];
         const getTransitLink = (d) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(d)}&travelmode=transit`;
-        const addExpense = () => { if(newItem.value.name && newItem.value.price){ expenses.value.unshift({...newItem.value}); localStorage.setItem('e_exp_v9', JSON.stringify(expenses.value)); newItem.value = {name:'', price:''}; } };
+        const addExpense = () => { if(newItem.value.name && newItem.value.price){ expenses.value.unshift({...newItem.value}); localStorage.setItem('e_exp_v10', JSON.stringify(expenses.value)); newItem.value = {name:'', price:''}; } };
         const totalExpenses = computed(() => expenses.value.reduce((s, i) => s + i.price, 0));
         const openGuide = (i) => { selectedItem.value = i; isModalOpen.value = true; document.body.style.overflow='hidden'; };
         const closeModal = () => { isModalOpen.value = false; document.body.style.overflow='auto'; };
-        const openVJW = () => window.open('https://vjw-lp.digital.go.jp/zh-hant/', '_blank');
+        const openVJW = () => window.open('https://www.vjw.digital.go.jp/main/#/vjwplo001', '_blank');
 
-        onMounted(() => { const s = localStorage.getItem('e_exp_v9'); if(s) expenses.value = JSON.parse(s); else expenses.value = [{name:'機票費', price: 54000}]; });
-        return { activeDay, currentTab, tabs, itineraryData, getTypeIcon, getTypeColor, getTransitLink, newItem, expenses, addExpense, totalExpenses, isModalOpen, selectedItem, openGuide, closeModal, openVJW };
+        onMounted(() => { const s = localStorage.getItem('e_exp_v10'); if(s) expenses.value = JSON.parse(s); else expenses.value = [{name:'機票', price: 54000}]; });
+        return { activeDay, currentTab, tabs, itineraryData, getTypeIcon, getTransitLink, newItem, expenses, addExpense, totalExpenses, isModalOpen, selectedItem, openGuide, closeModal, openVJW };
     }
 }).mount('#app');
 </script>
